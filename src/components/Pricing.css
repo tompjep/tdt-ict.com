@@ -1,0 +1,177 @@
+.pricing {
+  padding: 96px 0;
+  background: var(--bg-alt);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.pricing-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pricing-card--highlight {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  transform: scale(1.02);
+}
+
+.pricing-card--highlight:hover {
+  transform: scale(1.02) translateY(-4px);
+}
+
+.pricing-card--highlight .plan-name,
+.pricing-card--highlight .plan-desc,
+.pricing-card--highlight .plan-price,
+.pricing-card--highlight .plan-features li,
+.pricing-card--highlight .price-period {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pricing-card--highlight .plan-name {
+  color: #fff;
+}
+
+.pricing-card--highlight .price-amount,
+.pricing-card--highlight .price-currency {
+  color: #fff;
+}
+
+.pricing-card--highlight .check-icon {
+  color: #93c5fd;
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fbbf24;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pricing-header {
+  margin-bottom: 28px;
+}
+
+.plan-name {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-heading);
+}
+
+.plan-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.plan-price {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.price-currency {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: 1.5;
+}
+
+.price-amount {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text-heading);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.price-period {
+  font-size: 14px;
+  color: var(--text-light);
+  padding-bottom: 4px;
+}
+
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 0;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.check-icon {
+  width: 16px;
+  height: 16px;
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.pricing-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.pricing-note {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 40px;
+}
+
+.pricing-note a {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .pricing-card--highlight {
+    transform: scale(1);
+    order: -1;
+  }
+
+  .pricing-card--highlight:hover {
+    transform: translateY(-4px);
+  }
+
+  .pricing {
+    padding: 64px 0;
+  }
+}
