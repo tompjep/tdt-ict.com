@@ -34,6 +34,7 @@ export default function Contact() {
               <div>
                 <p className="contact-item-label">E-mail</p>
                 <a href="mailto:info@tdt-ict.com" className="contact-item-value">info@tdt-ict.com</a>
+              <a href="mailto:support@tdt-ict.com" className="contact-item-value" style={{fontSize:'13px', color:'var(--text-light)'}}>support@tdt-ict.com</a>
               </div>
             </div>
 
@@ -45,7 +46,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="contact-item-label">Telefoon</p>
-                <a href="tel:+31000000000" className="contact-item-value">+31 (0)00 000 0000</a>
+                <a href="tel:+31499796065" className="contact-item-value">+31 499 796 065</a>
               </div>
             </div>
 
@@ -70,7 +71,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="contact-item-label">Locatie</p>
-                <p className="contact-item-value">Nederland</p>
+                <p className="contact-item-value">Boekelingsstraat 29, Aarle-Rixtel</p>
               </div>
             </div>
           </div>

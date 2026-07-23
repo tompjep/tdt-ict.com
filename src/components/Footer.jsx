@@ -38,9 +38,23 @@ export default function Footer() {
             <h4>Contact</h4>
             <ul>
               <li><a href="mailto:info@tdt-ict.com">info@tdt-ict.com</a></li>
-              <li><a href="tel:+31000000000">+31 (0)00 000 0000</a></li>
+              <li><a href="mailto:support@tdt-ict.com">support@tdt-ict.com</a></li>
+              <li><a href="tel:+31499796065">+31 499 796 065</a></li>
+              <li>Boekelingsstraat 29, Aarle-Rixtel</li>
               <li>Ma – Vr: 09:00 – 17:30</li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer-partners">
+        <div className="container">
+          <p className="footer-partners-label">Onze partners</p>
+          <div className="footer-partners-list">
+            <span>Alta Labs</span>
+            <span>Fortinet</span>
+            <span>KPN</span>
+            <span>Microsoft</span>
           </div>
         </div>
       </div>
