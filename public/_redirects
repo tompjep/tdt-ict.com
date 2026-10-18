@@ -1,0 +1,7 @@
+# 301-redirects van oude/foutieve URL's (Netlify). Voor Vercel: zie vercel.json.
+# Bestaande URL's (/over-ons/, /contact/, /voorwaarden/, /acceptable-use-policy-aup/, /privacy-policy/) blijven gelijk.
+/contac              /contact/                     301
+/contac/             /contact/                     301
+/home/               /                             301
+/index.php           /                             301
+# [PLACEHOLDER: overige oude WordPress-URL's (bijv. /diensten-oud/, /pakketten/) hier toevoegen]
