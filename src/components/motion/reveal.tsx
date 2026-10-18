@@ -1,12 +1,8 @@
 "use client";
 
-import { m, type Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useInView, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
-
-const variants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0 },
-};
 
 type RevealProps = {
   children: React.ReactNode;
@@ -15,18 +11,33 @@ type RevealProps = {
   as?: "div" | "li" | "section" | "article";
 };
 
-/** Fade/slide-in bij scrollen. Zonder JavaScript blijft de inhoud gewoon zichtbaar (zie <noscript> in de layout). */
-export function Reveal({ children, className, delay = 0, as = "div" }: RevealProps) {
-  const Component = m[as];
+/**
+ * Fade/slide-in bij scrollen.
+ * - De server-HTML is altijd zichtbaar (snelle LCP, werkt zonder JavaScript).
+ * - Alleen elementen die bij het laden nog onder de vouw staan, worden verborgen
+ *   en met een CSS-transitie getoond zodra ze in beeld komen (Framer Motion `useInView`).
+ * - Bij prefers-reduced-motion gebeurt er niets.
+ */
+export function Reveal({ children, className, delay = 0, as: Component = "div" }: RevealProps) {
+  const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const inView = useInView(ref, { once: true, margin: "0px 0px -8% 0px" });
+  // "static" = gewoon zichtbaar; "armed" = bij laden buiten beeld, wacht op scrollen
+  const [armed, setArmed] = useState(false);
+
+  useEffect(() => {
+    if (reduceMotion || !ref.current) return;
+    if (ref.current.getBoundingClientRect().top > window.innerHeight) setArmed(true);
+  }, [reduceMotion]);
+
+  const state = !armed ? "static" : inView ? "shown" : "pending";
+
   return (
     <Component
-      data-reveal=""
+      ref={ref as React.Ref<never>}
+      data-reveal={state}
+      style={delay && state !== "static" ? { transitionDelay: `${delay}s` } : undefined}
       className={cn(className)}
-      variants={variants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}
     >
       {children}
     </Component>

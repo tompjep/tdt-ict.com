@@ -3,19 +3,24 @@
 import { useState } from "react";
 import { ExternalLink, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { company, contactPage } from "@/content/site";
 
 /** Kaart die pas laadt na een klik: geen externe requests of cookies zonder toestemming */
-export function MapEmbed() {
+type MapEmbedProps = {
+  name: string;
+  address: { street: string; postalCode: string; city: string };
+  consent: string;
+  button: string;
+};
+
+export function MapEmbed({ name, address, consent, button }: MapEmbedProps) {
   const [loaded, setLoaded] = useState(false);
-  const { address } = company.contact;
   const query = encodeURIComponent(`${address.street}, ${address.postalCode} ${address.city}`);
 
   return (
     <div className="overflow-hidden rounded-card border border-line bg-surface">
       {loaded ? (
         <iframe
-          title={`Kaart met de locatie van ${company.name} aan de ${address.street} in ${address.city}`}
+          title={`Kaart met de locatie van ${name} aan de ${address.street} in ${address.city}`}
           src={`https://www.google.com/maps?q=${query}&output=embed`}
           className="block aspect-[4/3] w-full border-0"
           loading="lazy"
@@ -31,9 +36,9 @@ export function MapEmbed() {
             <span className="mx-auto grid size-12 place-items-center rounded-full bg-accent-strong text-white shadow-lift">
               <MapPin aria-hidden="true" className="size-6" />
             </span>
-            <p className="mt-4 text-sm leading-relaxed">{contactPage.map.consent}</p>
+            <p className="mt-4 text-sm leading-relaxed">{consent}</p>
             <Button variant="outline" className="mt-4" onClick={() => setLoaded(true)}>
-              {contactPage.map.button}
+              {button}
             </Button>
           </div>
         </div>

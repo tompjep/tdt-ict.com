@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { CircleAlert, CircleCheck, LoaderCircle, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, NativeSelect, Textarea } from "@/components/ui/input";
-import { company, contactPage } from "@/content/site";
+import type { contactPage } from "@/content/site";
 import { emptyContact, submitContact, validateContact, type ContactErrors, type ContactValues } from "@/lib/form";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +22,12 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export function ContactForm() {
-  const { form } = contactPage;
+type ContactFormProps = {
+  form: (typeof contactPage)["form"];
+  contact: { phoneHref: string; phoneDisplay: string; email: string; emailHref: string };
+};
+
+export function ContactForm({ form, contact }: ContactFormProps) {
   const [values, setValues] = useState<ContactValues>(emptyContact);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof ContactValues, boolean>>>({});
@@ -93,8 +97,8 @@ export function ContactForm() {
         <p className="mt-2 leading-relaxed text-heading">{form.success.text}</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button asChild variant="navy">
-            <a href={company.contact.phoneHref}>
-              <Phone aria-hidden="true" /> {company.contact.phoneDisplay}
+            <a href={contact.phoneHref}>
+              <Phone aria-hidden="true" /> {contact.phoneDisplay}
             </a>
           </Button>
           <Button variant="outline" onClick={() => (setValues(emptyContact), setTouched({}), setShowSummary(false), setStatus("idle"))}>
@@ -118,12 +122,12 @@ export function ContactForm() {
           <p className="font-semibold text-[#912018]">{form.error.title}</p>
           <p className="mt-1 text-sm text-[#912018]">
             {form.error.text}{" "}
-            <a className="font-semibold underline" href={company.contact.emailHref}>
-              {company.contact.email}
+            <a className="font-semibold underline" href={contact.emailHref}>
+              {contact.email}
             </a>{" "}
             ·{" "}
-            <a className="font-semibold underline" href={company.contact.phoneHref}>
-              {company.contact.phoneDisplay}
+            <a className="font-semibold underline" href={contact.phoneHref}>
+              {contact.phoneDisplay}
             </a>
           </p>
         </div>

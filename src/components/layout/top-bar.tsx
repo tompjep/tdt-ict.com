@@ -4,7 +4,7 @@ import { company, home } from "@/content/site";
 export function TopBar() {
   const { contact } = company;
   return (
-    <div className="dark-section relative z-50 bg-navy-deep text-[0.8125rem] text-on-dark">
+    <aside aria-label="Calamiteitenlijn" className="dark-section relative z-50 bg-navy-deep text-[0.8125rem] text-on-dark">
       <div className="container-site flex h-10 items-center justify-between gap-4">
         <p className="flex min-w-0 items-center gap-2">
           <span className="relative flex size-2 shrink-0" aria-hidden="true">
@@ -31,6 +31,6 @@ export function TopBar() {
           </a>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }

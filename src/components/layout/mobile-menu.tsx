@@ -3,14 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Mail, Menu, Phone } from "lucide-react";
-import { audiences, company, cta, navigation, services } from "@/content/site";
 import { Icon } from "@/components/icon";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import type { NavData } from "@/lib/nav-data";
 import { cn } from "@/lib/utils";
 
-export function MobileMenu({ pathname }: { pathname: string }) {
+export function MobileMenu({ nav, pathname }: { nav: NavData; pathname: string }) {
+  const { services, audiences, cta } = nav;
   const [open, setOpen] = useState(false);
   const linkClass = (href: string) =>
     cn(
@@ -71,7 +72,7 @@ export function MobileMenu({ pathname }: { pathname: string }) {
             ))}
           </ul>
           <ul className="mt-4 border-t border-line pt-4">
-            {navigation.main
+            {nav.main
               .filter((item) => !item.menu)
               .map((item) => (
                 <li key={item.href}>
@@ -87,17 +88,17 @@ export function MobileMenu({ pathname }: { pathname: string }) {
         <div className="space-y-3 border-t border-line p-5">
           <SheetClose asChild>
             <Button asChild size="lg" className="w-full">
-              <Link href={cta.primary.href}>{cta.primary.label}</Link>
+              <Link href={cta.href}>{cta.label}</Link>
             </Button>
           </SheetClose>
           <div className="flex gap-2">
             <Button asChild variant="outline" className="flex-1">
-              <a href={company.contact.phoneHref}>
+              <a href={nav.phoneHref}>
                 <Phone aria-hidden="true" /> Bellen
               </a>
             </Button>
             <Button asChild variant="outline" className="flex-1">
-              <a href={company.contact.emailHref}>
+              <a href={nav.emailHref}>
                 <Mail aria-hidden="true" /> Mailen
               </a>
             </Button>

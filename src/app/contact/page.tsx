@@ -28,8 +28,11 @@ export default function ContactPage() {
 
       <section className="pb-20 sm:pb-24">
         <div className="container-site grid gap-10 lg:grid-cols-[1.45fr_1fr] lg:gap-12">
-          <div id="formulier" className="card scroll-mt-28 p-6 sm:p-10">
-            <ContactForm />
+          <div id="formulier" className="card scroll-mt-28 self-start p-6 sm:p-10">
+            <ContactForm
+              form={contactPage.form}
+              contact={{ phoneHref: contact.phoneHref, phoneDisplay: contact.phoneDisplay, email: contact.email, emailHref: contact.emailHref }}
+            />
           </div>
 
           <aside className="space-y-6" aria-label="Directe contactgegevens">
@@ -93,7 +96,7 @@ export default function ContactPage() {
 
             <div>
               <h2 className="sr-only">{contactPage.map.title}</h2>
-              <MapEmbed />
+              <MapEmbed name={company.name} address={contact.address} consent={contactPage.map.consent} button={contactPage.map.button} />
             </div>
           </aside>
         </div>

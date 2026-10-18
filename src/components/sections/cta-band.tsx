@@ -10,7 +10,7 @@ export function CtaBand({ title = cta.band.title, text = cta.band.text }: CtaBan
   return (
     <section className="px-4 pb-20 sm:px-6 sm:pb-24 lg:px-8" aria-labelledby="cta-title">
       <div className="dark-section relative mx-auto max-w-[1240px] overflow-hidden rounded-[24px] bg-navy px-6 py-14 sm:px-12 sm:py-16 lg:px-16 lg:py-20">
-        <NetworkMesh tone="dark" seed={99} density={36} />
+        <NetworkMesh animated tone="dark" seed={99} density={36} />
         <div aria-hidden="true" className="absolute -top-24 -right-24 size-72 rounded-full bg-accent/25 blur-3xl" />
         <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">

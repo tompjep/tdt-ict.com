@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowRight, Phone } from "lucide-react";
-import { audiences, company, cta, navigation, services } from "@/content/site";
 import { Icon } from "@/components/icon";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,14 @@ import {
   NavigationMenuTrigger,
   navTriggerClasses,
 } from "@/components/ui/navigation-menu";
+import type { NavData } from "@/lib/nav-data";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "./mobile-menu";
 
 const isActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href.replace(/\/$/, "")));
 
-export function Header() {
+export function Header({ nav }: { nav: NavData }) {
+  const { services, audiences, cta } = nav;
   const pathname = usePathname() ?? "/";
   const [scrolled, setScrolled] = useState(false);
 
@@ -44,8 +45,9 @@ export function Header() {
       )}
     >
       <div className="container-site flex h-18 items-center justify-between gap-4">
-        <Link href="/" className="-m-1 rounded-lg p-1" aria-label={`${company.name}, naar de homepage`}>
+        <Link href="/" className="-m-1 rounded-lg p-1">
           <Logo />
+          <span className="sr-only">, naar de homepage</span>
         </Link>
 
         <NavigationMenu className="hidden lg:flex" aria-label="Hoofdmenu">
@@ -86,10 +88,10 @@ export function Header() {
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link
-                          href={cta.primary.href}
+                          href={cta.href}
                           className="inline-flex items-center gap-1 text-sm font-semibold text-accent-strong hover:underline"
                         >
-                          {cta.primary.short} <ArrowRight aria-hidden="true" className="size-4" />
+                          {cta.short} <ArrowRight aria-hidden="true" className="size-4" />
                         </Link>
                       </NavigationMenuLink>
                     </div>
@@ -124,7 +126,7 @@ export function Header() {
               </NavigationMenuContent>
             </NavigationMenuItem>
 
-            {navigation.main
+            {nav.main
               .filter((item) => !item.menu)
               .map((item) => (
                 <NavigationMenuItem key={item.href}>
@@ -144,17 +146,17 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href={company.contact.phoneHref}
+            href={nav.phoneHref}
             className="hidden items-center gap-2 rounded-lg px-3 py-2 text-[0.9375rem] font-semibold text-heading hover:bg-navy/5 xl:inline-flex"
           >
             <Phone aria-hidden="true" className="size-4 text-accent-strong" />
             <span className="sr-only">Bel ons: </span>
-            {company.contact.phoneDisplay}
+            {nav.phoneDisplay}
           </a>
           <Button asChild className="hidden sm:inline-flex">
-            <Link href={cta.primary.href}>{cta.primary.short}</Link>
+            <Link href={cta.href}>{cta.short}</Link>
           </Button>
-          <MobileMenu pathname={pathname} />
+          <MobileMenu nav={nav} pathname={pathname} />
         </div>
       </div>
     </header>

@@ -6,12 +6,12 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileCallBar } from "@/components/layout/mobile-call-bar";
 import { TopBar } from "@/components/layout/top-bar";
-import { MotionProvider } from "@/components/motion/motion-provider";
 import { company, home } from "@/content/site";
+import { getNavData } from "@/lib/nav-data";
 import { localBusinessSchema, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
-// Inter (variabel, incl. optical size-as voor een display-variant op grote koppen), self-hosted
+// Inter (variabel 100–900, latin-subset), self-hosted. Display-gevoel op grote koppen via strakkere letter-spacing.
 const inter = localFont({
   src: "./fonts/InterVariable-latin.woff2",
   variable: "--font-inter",
@@ -40,24 +40,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="nl" className={inter.variable}>
       <body>
-        <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
-        </noscript>
         <a
           href="#inhoud"
           className="sr-only z-[60] rounded-lg bg-white px-4 py-3 font-semibold text-heading shadow-lift focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Naar de inhoud
         </a>
-        <MotionProvider>
-          <TopBar />
-          <Header />
-          <main id="inhoud" tabIndex={-1} className="outline-none">
-            {children}
-          </main>
-          <Footer />
-          <MobileCallBar />
-        </MotionProvider>
+        <TopBar />
+        <Header nav={getNavData()} />
+        <main id="inhoud" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
+        <Footer />
+        <MobileCallBar />
         <JsonLd data={localBusinessSchema()} />
         <Analytics />
       </body>

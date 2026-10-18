@@ -20,8 +20,9 @@ export function Footer() {
       <div className="container-site relative">
         <div className="grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr] lg:gap-16 lg:py-20">
           <div className="max-w-sm">
-            <Link href="/" className="inline-block rounded-lg" aria-label={`${company.name}, naar de homepage`}>
+            <Link href="/" className="inline-block rounded-lg">
               <Logo tone="dark" />
+              <span className="sr-only">, naar de homepage</span>
             </Link>
             <p className="mt-5 leading-relaxed">{company.description}</p>
             <ul className="mt-6 space-y-3 text-[0.9375rem]">

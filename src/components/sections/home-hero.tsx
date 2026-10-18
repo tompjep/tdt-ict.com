@@ -9,7 +9,7 @@ export function HomeHero() {
   const { hero } = home;
   return (
     <section className="relative -mt-18 overflow-hidden bg-gradient-to-b from-surface via-surface to-white pt-18" aria-labelledby="hero-title">
-      <NetworkMesh seed={3} density={48} className="[mask-image:radial-gradient(ellipse_at_70%_40%,black_20%,transparent_75%)]" />
+      <NetworkMesh animated seed={3} density={48} className="[mask-image:radial-gradient(ellipse_at_70%_40%,black_20%,transparent_75%)]" />
       <div className="container-site relative grid items-center gap-14 pt-12 pb-20 sm:pt-16 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:pt-20 lg:pb-28">
         <div className="hero-enter">
           <p className="eyebrow">
@@ -34,7 +34,7 @@ export function HomeHero() {
             {hero.chips.map((chip) => (
               <li
                 key={chip}
-                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/80 px-3.5 py-1.5 text-sm font-medium text-heading shadow-[0_1px_2px_rgb(16_24_40/0.04)] backdrop-blur"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-1.5 text-sm font-medium text-heading shadow-[0_1px_2px_rgb(16_24_40/0.04)]"
               >
                 <Check aria-hidden="true" className="size-3.5 text-accent-strong" strokeWidth={3} />
                 {chip}

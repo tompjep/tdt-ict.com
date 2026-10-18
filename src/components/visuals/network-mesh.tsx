@@ -51,15 +51,26 @@ type NetworkMeshProps = {
   tone?: "light" | "dark";
   seed?: number;
   density?: number;
+  /** Lichte animatie (datapakketjes + pulserende knooppunten). Alleen gebruiken waar het iets toevoegt, bijv. de hero. */
   animated?: boolean;
 };
 
-export function NetworkMesh({ className, tone = "light", seed = 7, density = 42, animated = true }: NetworkMeshProps) {
+const r1 = (n: number) => Math.round(n * 10) / 10;
+
+export function NetworkMesh({ className, tone = "light", seed = 7, density = 42, animated = false }: NetworkMeshProps) {
   const width = 1200;
   const height = 640;
   const { points, lines } = buildMesh(seed, density, width, height, 230);
   const line = tone === "dark" ? "rgb(197 208 222 / 0.16)" : "rgb(14 43 61 / 0.09)";
   const node = tone === "dark" ? "rgb(197 208 222 / 0.45)" : "rgb(14 43 61 / 0.22)";
+
+  // Alle lijnen en knooppunten als één path: weinig DOM-elementen, kleine HTML
+  const linePath = lines.map(([a, b]) => `M${a.x} ${a.y}L${b.x} ${b.y}`).join("");
+  const nodePath = points
+    .map((p) => `M${r1(p.x - p.r)} ${p.y}a${p.r} ${p.r} 0 1 0 ${p.r * 2} 0a${p.r} ${p.r} 0 1 0 ${-p.r * 2} 0`)
+    .join("");
+  const packets = animated ? lines.filter((_, i) => i % 17 === 0).slice(0, 6) : [];
+  const pulses = animated ? points.filter((_, i) => i % 9 === 4).slice(0, 5) : [];
 
   return (
     <svg
@@ -69,49 +80,32 @@ export function NetworkMesh({ className, tone = "light", seed = 7, density = 42,
       preserveAspectRatio="xMidYMid slice"
       className={cn("pointer-events-none absolute inset-0 h-full w-full", className)}
     >
-      <g stroke={line} strokeWidth="1">
-        {lines.map(([a, b], i) => (
-          <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-        ))}
-      </g>
-      {animated && (
-        <g stroke="#E94E19" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 42" opacity={tone === "dark" ? 0.75 : 0.55}>
-          {lines
-            .filter((_, i) => i % 9 === 0)
-            .map(([a, b], i) => (
-              <line
-                key={i}
-                x1={a.x}
-                y1={a.y}
-                x2={b.x}
-                y2={b.y}
-                className="animate-dash"
-                style={{ animationDelay: `${(i % 6) * -1}s` }}
-              />
-            ))}
-        </g>
-      )}
-      <g fill={node}>
-        {points.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r={p.r} />
-        ))}
-      </g>
-      {animated && (
-        <g fill="#E94E19">
-          {points
-            .filter((_, i) => i % 7 === 3)
-            .map((p, i) => (
-              <circle
-                key={i}
-                cx={p.x}
-                cy={p.y}
-                r={3}
-                className="animate-pulse-node"
-                style={{ transformBox: "fill-box", transformOrigin: "center", animationDelay: `${i * -0.6}s` }}
-              />
-            ))}
-        </g>
-      )}
+      <path d={linePath} stroke={line} strokeWidth="1" fill="none" />
+      <path d={nodePath} fill={node} />
+      {packets.map(([a, b], i) => (
+        <path
+          key={i}
+          d={`M${a.x} ${a.y}L${b.x} ${b.y}`}
+          stroke="#E94E19"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeDasharray="6 42"
+          opacity={tone === "dark" ? 0.75 : 0.55}
+          className="animate-dash"
+          style={{ animationDelay: `${i * -1}s` }}
+        />
+      ))}
+      {pulses.map((p, i) => (
+        <circle
+          key={i}
+          cx={p.x}
+          cy={p.y}
+          r={3}
+          fill="#E94E19"
+          className="animate-pulse-node"
+          style={{ transformBox: "fill-box", transformOrigin: "center", animationDelay: `${i * -0.6}s` }}
+        />
+      ))}
     </svg>
   );
 }

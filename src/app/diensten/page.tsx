@@ -29,8 +29,11 @@ export default function ServicesPage() {
         </Button>
       </PageHero>
 
-      <section className="pb-20 sm:pb-24" aria-label="Alle diensten">
+      <section className="pb-20 sm:pb-24" aria-labelledby="all-services-title">
         <div className="container-site">
+          <h2 id="all-services-title" className="sr-only">
+            Alle diensten
+          </h2>
           <ServiceBento />
         </div>
       </section>

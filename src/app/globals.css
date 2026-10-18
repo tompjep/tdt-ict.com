@@ -79,7 +79,6 @@
   }
   body {
     @apply bg-white font-sans text-body antialiased;
-    font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
   }
   h1,
@@ -212,4 +211,17 @@
     opacity: 0;
     transform: translateY(14px);
   }
+}
+
+/* Scroll-reveal (zie src/components/motion/reveal.tsx) */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
 }
