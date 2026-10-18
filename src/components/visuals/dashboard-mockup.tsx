@@ -28,7 +28,6 @@ export function DashboardMockup() {
             <LogoMark className="size-6" />
             <span className="text-sm font-semibold text-heading">Statusoverzicht</span>
           </div>
-          <span className="text-xs text-body">Live</span>
         </div>
         <div className="grid gap-5 p-5 sm:grid-cols-[1.1fr_1fr]">
           <div className="rounded-xl bg-surface p-4">

@@ -258,7 +258,7 @@ export const services: Service[] = [
     seo: {
       title: "Online werkplek & Microsoft 365 voor het MKB",
       description:
-        "Werk overal veilig met Microsoft 365: zakelijke mail, Teams, OneDrive, SharePoint en back-up. Ingericht en beheerd door TDT-ICT uit Aarle-Rixtel, voor een vaste maandprijs.",
+        "Werk overal veilig met Microsoft 365: zakelijke mail, Teams, OneDrive, SharePoint en back-up. Ingericht en beheerd door TDT-ICT, voor een vaste maandprijs.",
     },
     hero: {
       title: "Online werkplek & Microsoft 365",
@@ -328,7 +328,7 @@ export const services: Service[] = [
     seo: {
       title: "Netwerkbeheer & zakelijke wifi",
       description:
-        "Een stabiel en veilig bedrijfsnetwerk met dekkende wifi, firewall en segmentatie. Ontworpen, geïnstalleerd en op afstand beheerd door TDT-ICT in Laarbeek, Helmond en Eindhoven.",
+        "Een stabiel, veilig bedrijfsnetwerk met dekkende wifi, firewall en segmentatie. Ontworpen en op afstand beheerd door TDT-ICT uit Laarbeek.",
     },
     hero: {
       title: "Netwerk & wifi",
@@ -390,7 +390,7 @@ export const services: Service[] = [
     seo: {
       title: "Cybersecurity voor het MKB",
       description:
-        "Bescherm je accounts, apparaten en data met multi-factor authenticatie, versleutelde opslag, firewall, updates en continue monitoring. Nuchter advies van TDT-ICT, zonder angstmarketing.",
+        "Bescherm je accounts, apparaten en data met MFA, versleutelde opslag, firewall, updates en continue monitoring. Nuchter advies van TDT-ICT.",
     },
     hero: {
       title: "Cybersecurity",
@@ -452,7 +452,7 @@ export const services: Service[] = [
     seo: {
       title: "Zakelijke VoIP-telefonie",
       description:
-        "Flexibel bellen via internet met je vaste bedrijfsnummer, op kantoor, thuis en onderweg. Met keuzemenu, doorschakelen en voicemail. Ingericht en beheerd door TDT-ICT.",
+        "Bellen via internet met je vaste bedrijfsnummer, op kantoor, thuis en onderweg. Met keuzemenu, doorschakelen en voicemail. Geregeld door TDT-ICT.",
     },
     hero: {
       title: "VoIP-telefonie",
@@ -509,7 +509,7 @@ export const services: Service[] = [
     seo: {
       title: "Zakelijke internetverbindingen",
       description:
-        "Een snelle en betrouwbare zakelijke internetverbinding, zonder zelf met providers te bellen. TDT-ICT regelt advies, aanvraag, installatie en is je aanspreekpunt bij storingen.",
+        "Snel en betrouwbaar zakelijk internet, zonder zelf met providers te bellen. TDT-ICT regelt advies, aanvraag en installatie, en helpt bij storingen.",
     },
     hero: {
       title: "Internetverbindingen",
@@ -569,7 +569,7 @@ export const services: Service[] = [
     seo: {
       title: "Website laten maken & WordPress-hosting",
       description:
-        "Laat je website ontwerpen, bouwen, hosten en onderhouden door TDT-ICT. Snelle, veilige WordPress-hosting met updates, back-ups en monitoring. Ook ledenportalen voor verenigingen.",
+        "Website laten maken, hosten en onderhouden door TDT-ICT. Snelle, veilige WordPress-hosting met updates, back-ups en monitoring. Ook ledenportalen.",
     },
     hero: {
       title: "Websites & WordPress-hosting",
@@ -672,9 +672,9 @@ export const audiences: Audience[] = [
     icon: "building",
     bullets: ["Eén aanspreekpunt voor al je IT", "Vaste maandprijs, geen verrassingen", "Werkplek, netwerk en security geregeld"],
     seo: {
-      title: "IT-beheer voor het MKB in Laarbeek, Helmond en Eindhoven",
+      title: "IT-beheer MKB in Laarbeek, Helmond & Eindhoven",
       description:
-        "IT-beheer voor het MKB: online werkplek, Microsoft 365, netwerk, cybersecurity, VoIP en internet. Eén aanspreekpunt en een vaste maandprijs. TDT-ICT uit Aarle-Rixtel.",
+        "IT-beheer voor het MKB: Microsoft 365, netwerk, cybersecurity, VoIP en internet. Eén aanspreekpunt en een vaste maandprijs. TDT-ICT uit Aarle-Rixtel.",
     },
     hero: {
       eyebrow: "Zakelijk / MKB",
@@ -720,7 +720,7 @@ export const audiences: Audience[] = [
     seo: {
       title: "Websites voor stichtingen & verenigingen",
       description:
-        "Een toegankelijke website met afgeschermd ledenportaal voor je stichting of vereniging. Inclusief hosting en onderhoud, zodat vrijwilligers zich op hun club kunnen richten.",
+        "Een toegankelijke website met afgeschermd ledenportaal voor je stichting of vereniging, inclusief hosting en onderhoud. Door TDT-ICT uit Laarbeek.",
     },
     hero: {
       eyebrow: "Stichtingen & verenigingen",
@@ -836,7 +836,7 @@ export const home = {
   seo: {
     title: "TDT-ICT | Jouw cloud IT-partner in Aarle-Rixtel",
     description:
-      "IT-beheer, Microsoft 365, netwerk, cybersecurity, VoIP en websites voor het MKB, verenigingen en particulieren. Eén aanspreekpunt en een vaste maandprijs. TDT-ICT uit Aarle-Rixtel.",
+      "IT-beheer, Microsoft 365, netwerk, security, VoIP en websites voor MKB, verenigingen en particulieren. Eén aanspreekpunt, vaste maandprijs. Uit Aarle-Rixtel.",
   },
   topbar: { label: "Storing? Bel de calamiteitenlijn:" },
   hero: {
@@ -1116,7 +1116,7 @@ export const servicesOverview = {
   seo: {
     title: "Diensten: IT-beheer, Microsoft 365, netwerk & websites",
     description:
-      "Alle diensten van TDT-ICT: online werkplek en Microsoft 365, netwerk en wifi, cybersecurity, VoIP-telefonie, internetverbindingen en websites met WordPress-hosting.",
+      "Alle diensten van TDT-ICT: Microsoft 365, netwerk en wifi, cybersecurity, VoIP-telefonie, zakelijk internet en websites met WordPress-hosting.",
   },
   hero: {
     eyebrow: "Diensten",

@@ -11,7 +11,7 @@ export function AudienceCards() {
         <Reveal as="li" key={a.slug} delay={i * 0.08}>
           <Link
             href={a.href}
-            className="group flex h-full flex-col rounded-card border border-line bg-white p-7 shadow-soft transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-navy/15 hover:shadow-lift"
+            className="group flex h-full flex-col rounded-card border border-line bg-white p-7 shadow-soft md:p-5 lg:p-7 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-navy/15 hover:shadow-lift"
           >
             <span className="grid size-12 place-items-center rounded-xl bg-navy text-white transition-colors group-hover:bg-accent-strong">
               <Icon name={a.icon} className="size-6" />
