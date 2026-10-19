@@ -8,6 +8,9 @@
  * Instellingen staan NIET in dit bestand maar in een configbestand buiten de webroot,
  * standaard: <domeinmap>/private/tdt-contact-config.php (zie examples/tdt-contact-config.example.php).
  * Een ander pad kan via de omgevingsvariabele TDT_CONTACT_CONFIG.
+ *
+ * Werkt met PHP 7.4 en hoger. Bij een configuratiefout geeft het script een foutcode
+ * terug (veld "code") en schrijft het details naar de PHP-errorlog van het domein.
  */
 
 declare(strict_types=1);
@@ -15,11 +18,21 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
-function respond(int $status, array $body): never
+function respond(int $status, array $body): void
 {
     http_response_code($status);
     echo json_encode($body, JSON_UNESCAPED_UNICODE);
     exit;
+}
+
+function str_cut(string $value, int $max): string
+{
+    return function_exists('mb_substr') ? mb_substr($value, 0, $max, 'UTF-8') : substr($value, 0, $max);
+}
+
+function str_len(string $value): int
+{
+    return function_exists('mb_strlen') ? mb_strlen($value, 'UTF-8') : strlen($value);
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -32,9 +45,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
  * ------------------------------------------------------------------------ */
 
 $configPath = getenv('TDT_CONTACT_CONFIG') ?: dirname(__DIR__, 2) . '/private/tdt-contact-config.php';
-if (!is_file($configPath)) {
-    error_log("contact.php: configbestand ontbreekt ($configPath)");
-    respond(500, ['ok' => false, 'error' => 'Formulier is niet geconfigureerd']);
+if (!is_readable($configPath)) {
+    error_log("contact.php: configbestand niet gevonden of niet leesbaar: $configPath");
+    respond(500, ['ok' => false, 'code' => 'config_missing', 'error' => 'Formulier is niet geconfigureerd']);
 }
 $config = require $configPath;
 $to = (string) ($config['to'] ?? '');
@@ -42,7 +55,8 @@ $from = (string) ($config['from'] ?? '');
 $turnstileSecret = (string) ($config['turnstile_secret'] ?? '');
 $requireTurnstile = (bool) ($config['require_turnstile'] ?? true);
 if ($to === '' || $from === '') {
-    respond(500, ['ok' => false, 'error' => 'Formulier is niet geconfigureerd']);
+    error_log('contact.php: "to" of "from" ontbreekt in het configbestand');
+    respond(500, ['ok' => false, 'code' => 'config_incomplete', 'error' => 'Formulier is niet geconfigureerd']);
 }
 
 /* ---------------------------------------------------------------------------
@@ -83,7 +97,9 @@ if (!is_array($data)) {
     respond(400, ['ok' => false, 'error' => 'Ongeldige aanvraag']);
 }
 
-$field = fn(string $key, int $max = 200): string => mb_substr(trim((string) ($data[$key] ?? '')), 0, $max);
+$field = function (string $key, int $max = 200) use ($data): string {
+    return str_cut(trim((string) ($data[$key] ?? '')), $max);
+};
 $name = $field('name');
 $company = $field('company');
 $email = $field('email');
@@ -93,13 +109,13 @@ $subject = $field('subject', 80);
 $message = $field('message', 5000);
 
 $errors = [];
-if (mb_strlen($name) < 2) $errors[] = 'name';
+if (str_len($name) < 2) $errors[] = 'name';
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'email';
 $digits = preg_replace('/\D/', '', $phone);
 if (!preg_match('/^[+\d\s()-]+$/', $phone) || strlen($digits) < 10 || strlen($digits) > 15) $errors[] = 'phone';
 if (!in_array($role, ['zakelijk', 'vereniging', 'particulier'], true)) $errors[] = 'role';
 if ($subject === '') $errors[] = 'subject';
-if (mb_strlen($message) < 10) $errors[] = 'message';
+if (str_len($message) < 10) $errors[] = 'message';
 if (($data['privacy'] ?? false) !== true) $errors[] = 'privacy';
 if ($errors) {
     respond(422, ['ok' => false, 'error' => 'Ongeldige velden', 'fields' => $errors]);
@@ -114,22 +130,39 @@ if ($turnstileSecret !== '') {
     if ($token === '') {
         respond(403, ['ok' => false, 'error' => 'Beveiligingscheck ontbreekt']);
     }
-    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query(['secret' => $turnstileSecret, 'response' => $token, 'remoteip' => $ip]),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 10,
-    ]);
-    $result = json_decode((string) curl_exec($ch), true);
-    curl_close($ch);
+    $verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    $postFields = http_build_query(['secret' => $turnstileSecret, 'response' => $token, 'remoteip' => $ip]);
+    if (function_exists('curl_init')) {
+        $ch = curl_init($verifyUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $postFields,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
+        ]);
+        $response = curl_exec($ch);
+        if ($response === false) error_log('contact.php: Turnstile-controle mislukt: ' . curl_error($ch));
+        curl_close($ch);
+    } else {
+        $response = @file_get_contents($verifyUrl, false, stream_context_create(['http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => $postFields,
+            'timeout' => 10,
+        ]]));
+        if ($response === false) error_log('contact.php: Turnstile-controle mislukt (geen curl, file_get_contents faalde)');
+    }
+    $result = json_decode((string) $response, true);
+    if (is_array($result) && ($result['success'] ?? false) !== true) {
+        error_log('contact.php: Turnstile weigerde het token: ' . implode(',', (array) ($result['error-codes'] ?? [])));
+    }
     // Bij een netwerkfout of afwijzing: niet versturen (fail closed)
     if (!is_array($result) || ($result['success'] ?? false) !== true || (isset($result['action']) && $result['action'] !== 'contact')) {
-        respond(403, ['ok' => false, 'error' => 'Beveiligingscheck mislukt']);
+        respond(403, ['ok' => false, 'code' => 'turnstile_failed', 'error' => 'Beveiligingscheck mislukt']);
     }
 } elseif ($requireTurnstile) {
     error_log('contact.php: turnstile_secret ontbreekt terwijl require_turnstile aan staat');
-    respond(500, ['ok' => false, 'error' => 'Formulier is niet geconfigureerd']);
+    respond(500, ['ok' => false, 'code' => 'turnstile_secret_missing', 'error' => 'Formulier is niet geconfigureerd']);
 }
 
 /* ---------------------------------------------------------------------------
@@ -163,13 +196,15 @@ $headers = [
     'Content-Transfer-Encoding' => '8bit',
     'X-Mailer' => 'tdt-ict.com contactformulier',
 ];
-$mailSubject = mb_encode_mimeheader("Nieuw bericht via tdt-ict.com: $subject", 'UTF-8');
+$mailSubject = function_exists('mb_encode_mimeheader')
+    ? mb_encode_mimeheader("Nieuw bericht via tdt-ict.com: $subject", 'UTF-8')
+    : '=?UTF-8?B?' . base64_encode("Nieuw bericht via tdt-ict.com: $subject") . '?=';
 $envelopeFrom = filter_var(preg_replace('/^.*<|>.*$/', '', $from), FILTER_VALIDATE_EMAIL);
 
 $sent = mail($to, $mailSubject, $body, $headers, $envelopeFrom ? "-f$envelopeFrom" : '');
 if (!$sent) {
-    error_log('contact.php: mail() mislukt');
-    respond(502, ['ok' => false, 'error' => 'Versturen mislukt']);
+    error_log('contact.php: mail() mislukt, controleer of de mailservice van Plesk aan staat voor dit domein');
+    respond(502, ['ok' => false, 'code' => 'mail_failed', 'error' => 'Versturen mislukt']);
 }
 
 $recent[] = $now;
