@@ -1,7 +1,24 @@
-import { partnerOrder, partners, type PartnerId } from "@/content/site";
+import { partnerOrder, partners, type Partner, type PartnerId } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 type PartnerStripProps = { ids?: PartnerId[]; label?: string; className?: string; variant?: "strip" | "cards" };
+
+function PartnerLogo({ partner, className }: { partner: Partner; className?: string }) {
+  const { src, width, height, displayHeight } = partner.logo;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- statische export, logo's zijn al geoptimaliseerd
+    <img
+      src={src}
+      alt={`Logo van ${partner.name}`}
+      width={Math.round((width / height) * displayHeight)}
+      height={displayHeight}
+      loading="lazy"
+      decoding="async"
+      style={{ height: displayHeight }}
+      className={cn("w-auto max-w-none opacity-60 grayscale transition duration-300", className)}
+    />
+  );
+}
 
 /** Partnerlogo's: grijstinten, kleur bij hover. Elk logo één keer. */
 export function PartnerStrip({ ids = partnerOrder, label, className, variant = "strip" }: PartnerStripProps) {
@@ -15,15 +32,9 @@ export function PartnerStrip({ ids = partnerOrder, label, className, variant = "
           const p = partners[id];
           return (
             <li key={id} className="card group flex flex-col gap-4 p-6">
-              {/* eslint-disable-next-line @next/next/no-img-element -- statische SVG, geen optimalisatie nodig */}
-              <img
-                src={p.logo}
-                alt={`Logo van ${p.name}`}
-                width={p.width}
-                height={32}
-                loading="lazy"
-                className="h-8 w-auto self-start opacity-70 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
-              />
+              <div className="flex h-9 items-center">
+                <PartnerLogo partner={p} className="group-hover:opacity-100 group-hover:grayscale-0" />
+              </div>
               <p className="text-[0.9375rem] leading-relaxed">{p.description}</p>
             </li>
           );
@@ -39,16 +50,8 @@ export function PartnerStrip({ ids = partnerOrder, label, className, variant = "
         {unique.map((id) => {
           const p = partners[id];
           return (
-            <li key={id}>
-              {/* eslint-disable-next-line @next/next/no-img-element -- statische SVG, geen optimalisatie nodig */}
-              <img
-                src={p.logo}
-                alt={`Logo van ${p.name}`}
-                width={p.width}
-                height={32}
-                loading="lazy"
-                className="h-7 w-auto opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-8"
-              />
+            <li key={id} className="flex h-9 items-center">
+              <PartnerLogo partner={p} className="hover:opacity-100 hover:grayscale-0" />
             </li>
           );
         })}

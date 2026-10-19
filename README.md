@@ -34,7 +34,8 @@ Benodigd: Node.js 20 of hoger (getest met Node 22).
 | Over ons, support, contact | `about`, `support`, `contactPage` in `src/content/site.ts` |
 | Navigatie en footerlinks | `navigation` in `src/content/site.ts` |
 | Juridische teksten | `src/content/legal.ts` |
-| Partnerlogo's | `public/partners/*.svg` + `partners` in `src/content/site.ts` |
+| Partnerlogo's | `public/partners/` + `partners` in `src/content/site.ts` (incl. weergavehoogte per logo) |
+| Logo en favicons | `public/logo.webp` (licht), `public/logo-light.webp` (op navy), `favicon.ico`, `icon-192.png`, `apple-touch-icon.png` |
 
 Iconen kies je met een naam uit `src/components/icon.tsx` (bijv. `"cloud"`, `"shield"`, `"wifi"`). Een nieuw icoon voeg je daar toe vanuit [lucide.dev](https://lucide.dev/icons).
 
@@ -44,15 +45,15 @@ Een **nieuwe dienst** voeg je toe als extra object in `services`. De pagina, het
 
 Alles wat nog ingevuld of bevestigd moet worden, is gemarkeerd met `[PLACEHOLDER: ...]`. Een overzicht krijg je met `npm run placeholders`. De belangrijkste:
 
-- **Logo**: `src/components/logo.tsx`, `public/logo.svg`, `public/favicon.svg` (lever het SVG-logo aan)
+- **Logo als SVG**: het logo staat er nu in als WebP/PNG. Met een SVG-versie wordt het scherper en kleiner (`src/components/logo.tsx`)
 - **Teamfoto's**: zet foto's in `public/team/` als WebP of AVIF (bijv. 960×1120 px) en vul `photo` in bij `team`
 - **Reviews**: echte Google-reviews in `reviews`, en `googleReviewsUrl`
 - **Juridische teksten**: bestaande teksten overnemen in `src/content/legal.ts` (de oude site was tijdens de bouw niet bereikbaar)
 - **Cijfers**: aantal websites (nu 60+) en werkgebied bevestigen
 - **FAQ-antwoorden en prijzen**: waar het antwoord niet in de briefing stond
 - **Kantoortijden, WhatsApp, remote-supporttool**
-- **Partnerlogo's**: vervang de tijdelijke SVG's door de officiële logo's uit de partnerportals
-- **OG-afbeelding**: `public/og-image.png` (1200×630) mag vervangen worden door een ontwerp met het echte logo
+- **Ubiquiti-logo**: Microsoft, KPN, Fortinet en Alta Labs zijn de officiële logo's; Ubiquiti is nog een tijdelijke versie
+- **OG-afbeelding**: `public/og-image.png` (1200×630) is gegenereerd met het logo en de hero-tekst; vervang hem gerust door een eigen ontwerp
 
 Placeholders in FAQ-antwoorden worden automatisch uit de structured data (FAQPage) gefilterd, maar zijn op de pagina wel zichtbaar. Zo vergeet je ze niet.
 

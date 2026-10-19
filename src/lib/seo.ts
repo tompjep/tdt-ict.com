@@ -47,7 +47,7 @@ export function localBusinessSchema() {
     slogan: company.tagline,
     description: company.description,
     url: `${siteUrl}/`,
-    logo: `${siteUrl}/logo.svg`,
+    logo: `${siteUrl}/logo.png`,
     image: `${siteUrl}/og-image.png`,
     telephone: contact.phoneHref.replace("tel:", ""),
     email: contact.email,

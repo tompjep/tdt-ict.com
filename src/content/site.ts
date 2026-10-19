@@ -153,35 +153,41 @@ export const websitesLabel = `${stats.websites.value}${stats.websites.suffix}`;
  * Partners / merken
  * ------------------------------------------------------------------------- */
 
-export const partners: Record<PartnerId, { name: string; logo: string; width: number; description: string }> = {
+/**
+ * Logo's: `width`/`height` zijn de echte afmetingen van het bestand, `displayHeight` is de
+ * weergavehoogte in px. Die verschilt per logo, zodat ze optisch even groot ogen.
+ */
+export type Partner = {
+  name: string;
+  logo: { src: string; width: number; height: number; displayHeight: number };
+  description: string;
+};
+
+export const partners: Record<PartnerId, Partner> = {
   microsoft: {
     name: "Microsoft",
-    logo: "/partners/microsoft.svg",
-    width: 150,
+    logo: { src: "/partners/microsoft.webp", width: 284, height: 62, displayHeight: 26 },
     description: "Microsoft 365: mail, Teams, OneDrive en SharePoint.",
   },
   kpn: {
     name: "KPN",
-    logo: "/partners/kpn.svg",
-    width: 90,
+    logo: { src: "/partners/kpn.webp", width: 218, height: 84, displayHeight: 34 },
     description: "Zakelijke internetverbindingen.",
   },
   fortinet: {
     name: "Fortinet",
-    logo: "/partners/fortinet.svg",
-    width: 150,
+    logo: { src: "/partners/fortinet.webp", width: 300, height: 35, displayHeight: 17 },
     description: "Firewalls en netwerkbeveiliging.",
   },
   ubiquiti: {
     name: "Ubiquiti (UniFi)",
-    logo: "/partners/ubiquiti.svg",
-    width: 150,
+    // [PLACEHOLDER: officieel Ubiquiti/UniFi-logo aanleveren]
+    logo: { src: "/partners/ubiquiti.svg", width: 150, height: 32, displayHeight: 26 },
     description: "Wifi, switches en netwerkbeheer met UniFi.",
   },
   "alta-labs": {
     name: "Alta Labs",
-    logo: "/partners/alta-labs.svg",
-    width: 140,
+    logo: { src: "/partners/alta-labs.webp", width: 296, height: 86, displayHeight: 32 },
     description: "Wifi- en netwerkapparatuur.",
   },
 };

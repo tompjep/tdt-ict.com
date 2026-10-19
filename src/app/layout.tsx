@@ -27,7 +27,13 @@ export const metadata: Metadata = {
   authors: [{ name: company.name }],
   formatDetection: { telephone: false },
   robots: { index: true, follow: true },
-  icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }], apple: "/apple-touch-icon.png" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {

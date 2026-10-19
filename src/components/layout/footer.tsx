@@ -25,15 +25,15 @@ export function Footer() {
               <span className="sr-only">, naar de homepage</span>
             </Link>
             <p className="mt-5 leading-relaxed">{company.description}</p>
-            <ul className="mt-6 space-y-3 text-[0.9375rem]">
+            <ul className="mt-6 space-y-2 text-[0.9375rem]">
               <li>
-                <a href={contact.phoneHref} className="inline-flex items-center gap-3 hover:text-white">
+                <a href={contact.phoneHref} className="inline-flex min-h-6 items-center gap-3 py-0.5 hover:text-white">
                   <Phone aria-hidden="true" className="size-4 text-accent-soft" />
                   {contact.phoneDisplay}
                 </a>
               </li>
               <li>
-                <a href={contact.emailHref} className="inline-flex items-center gap-3 hover:text-white">
+                <a href={contact.emailHref} className="inline-flex min-h-6 items-center gap-3 py-0.5 hover:text-white">
                   <Mail aria-hidden="true" className="size-4 text-accent-soft" />
                   {contact.email}
                 </a>
