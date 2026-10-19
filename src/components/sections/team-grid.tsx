@@ -6,15 +6,15 @@ import { cn } from "@/lib/utils";
 function TeamPhoto({ member, index }: { member: TeamMember; index: number }) {
   if (member.photo) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element -- statische export; lever foto's aan als WebP/AVIF
+      // eslint-disable-next-line @next/next/no-img-element -- statische export; foto's zijn al geoptimaliseerd (WebP, 800 px)
       <img
         src={member.photo}
         alt={member.photoAlt}
-        width={480}
-        height={560}
+        width={800}
+        height={800}
         loading="lazy"
         decoding="async"
-        className="aspect-[6/7] w-full rounded-[12px] object-cover"
+        className="aspect-square w-full rounded-[12px] object-cover"
       />
     );
   }
@@ -24,7 +24,7 @@ function TeamPhoto({ member, index }: { member: TeamMember; index: number }) {
       data-placeholder="teamfoto"
       role="img"
       aria-label={`${member.photoAlt} (foto volgt)`}
-      className="relative grid aspect-[6/7] w-full place-items-center overflow-hidden rounded-[12px] bg-gradient-to-br from-navy to-navy-deep"
+      className="relative grid aspect-square w-full place-items-center overflow-hidden rounded-[12px] bg-gradient-to-br from-navy to-navy-deep"
     >
       <NetworkMesh tone="dark" seed={index * 17 + 5} density={14} animated={false} />
       <span className="relative text-5xl font-semibold tracking-tight text-white/90">{member.initials}</span>

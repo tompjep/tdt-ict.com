@@ -46,7 +46,7 @@ Een **nieuwe dienst** voeg je toe als extra object in `services`. De pagina, het
 Alles wat nog ingevuld of bevestigd moet worden, is gemarkeerd met `[PLACEHOLDER: ...]`. Een overzicht krijg je met `npm run placeholders`. De belangrijkste:
 
 - **Logo als SVG**: het logo staat er nu in als WebP/PNG. Met een SVG-versie wordt het scherper en kleiner (`src/components/logo.tsx`)
-- **Teamfoto's**: zet foto's in `public/team/` als WebP of AVIF (bijv. 960×1120 px) en vul `photo` in bij `team`
+- **Teambio's**: korte persoonlijke tekst per teamlid (`bio` bij `team`). Nieuwe teamfoto's: vierkant, WebP, 800×800 px in `public/team/`
 - **Reviews**: echte Google-reviews in `reviews`, en `googleReviewsUrl`
 - **Juridische teksten**: bestaande teksten overnemen in `src/content/legal.ts` (de oude site was tijdens de bouw niet bereikbaar)
 - **Cijfers**: aantal websites (nu 60+) en werkgebied bevestigen

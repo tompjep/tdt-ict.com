@@ -75,7 +75,7 @@ export type TeamMember = {
   role: string;
   initials: string;
   bio: string;
-  /** Pad in /public, bij voorkeur WebP of AVIF (bijv. "/team/thijs-geene.webp"). null = placeholder */
+  /** Pad in /public: vierkante foto, WebP, 800×800 px (bijv. "/team/thijs-geene.webp"). null = placeholder met initialen */
   photo: string | null;
   photoAlt: string;
 };
@@ -204,7 +204,7 @@ export const team: TeamMember[] = [
     role: "Directeur",
     initials: "TG",
     bio: "Thijs richtte TDT-ICT in 2021 op. [PLACEHOLDER: korte persoonlijke bio, 1–2 zinnen]",
-    photo: null, // [PLACEHOLDER: teamfoto, bijv. "/team/thijs-geene.webp"]
+    photo: "/team/thijs-geene.webp",
     photoAlt: "Portret van Thijs Geene, directeur van TDT-ICT",
   },
   {
@@ -212,7 +212,7 @@ export const team: TeamMember[] = [
     role: "Mede-directeur & netwerkbeheerder",
     initials: "TR",
     bio: "Tom is mede-oprichter en houdt de netwerken van klanten stabiel en veilig. [PLACEHOLDER: korte persoonlijke bio]",
-    photo: null, // [PLACEHOLDER: teamfoto, bijv. "/team/tom-ruis.webp"]
+    photo: "/team/tom-ruis.webp",
     photoAlt: "Portret van Tom Ruis, mede-directeur en netwerkbeheerder van TDT-ICT",
   },
   {
@@ -220,7 +220,7 @@ export const team: TeamMember[] = [
     role: "Systeembeheerder",
     initials: "DB",
     bio: "Daan zorgt dat werkplekken, accounts en systemen gewoon werken. [PLACEHOLDER: korte persoonlijke bio]",
-    photo: null, // [PLACEHOLDER: teamfoto, bijv. "/team/daan-bruinsma.webp"]
+    photo: "/team/daan-bruinsma.webp",
     photoAlt: "Portret van Daan Bruinsma, systeembeheerder bij TDT-ICT",
   },
 ];
