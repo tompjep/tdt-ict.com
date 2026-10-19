@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens TDT-ICT
+   - Merkkleuren uit de huisstijl.
+   - Oranje #E94E19 haalt met witte tekst geen WCAG AA (3,77:1). Daarom:
+     accent        → merkoranje voor iconen, lijnen en grote tekst
+     accent-strong → CTA-achtergrond met witte tekst / kleine oranje tekst op licht (≥ 4,6:1)
+     accent-soft   → oranje tekst op navy (≥ 5:1)
+   ------------------------------------------------------------------ */
+@theme {
+  --color-navy: #0e2b3d;
+  --color-navy-deep: #001d4c;
+  --color-navy-800: #163a50;
+  --color-navy-700: #1f4a63;
+
+  --color-accent: #e94e19;
+  --color-accent-strong: #c93f12;
+  --color-accent-hover: #b83a10;
+  --color-accent-soft: #f2703f;
+  --color-accent-tint: #fdeee8;
+
+  --color-surface: #f3f7fd;
+  --color-surface-2: #e9f0fa;
+  --color-heading: #101828;
+  --color-body: #667085;
+  --color-line: #e4e7ec;
+  --color-on-dark: #c5d0de;
+  --color-on-dark-muted: #a3b3c7;
+  --color-success: #12805c;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius-card: 16px;
+  --shadow-soft: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px -4px rgb(16 24 40 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(16 24 40 / 0.04), 0 16px 40px -12px rgb(14 43 61 / 0.18);
+  --shadow-header: 0 1px 0 rgb(16 24 40 / 0.06), 0 8px 24px -12px rgb(16 24 40 / 0.12);
+
+  --animate-dash: dash 6s linear infinite;
+  --animate-pulse-node: pulse-node 3.2s ease-in-out infinite;
+  --animate-float: float 8s ease-in-out infinite;
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -48;
+    }
+  }
+  @keyframes pulse-node {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.35);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply bg-white font-sans text-body antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-heading text-balance;
+    letter-spacing: -0.022em;
+  }
+  h1 {
+    letter-spacing: -0.035em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: rgb(233 78 25 / 0.18);
+    color: var(--color-heading);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-strong);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .dark-section :focus-visible {
+    outline-color: var(--color-accent-soft);
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.08em] text-accent-strong uppercase;
+  }
+  .dark-section .eyebrow {
+    @apply text-accent-soft;
+  }
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+  .card {
+    @apply rounded-card border border-line bg-white shadow-soft;
+  }
+  .prose-legal h2 {
+    @apply mt-10 mb-3 text-xl font-semibold;
+  }
+  .prose-legal p,
+  .prose-legal li {
+    @apply leading-relaxed;
+  }
+  .prose-legal p {
+    @apply mb-4;
+  }
+  .prose-legal ul {
+    @apply mb-4 list-disc space-y-1 pl-6;
+  }
+}
+
+/* Respecteer prefers-reduced-motion voor alle CSS-animaties */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Keyframes voor Radix-componenten (accordion, sheet, megamenu) */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+@keyframes menu-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+/* Hero: lichte CSS-entree (geen JS nodig, LCP blijft snel) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Scroll-reveal (zie src/components/motion/reveal.tsx) */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
