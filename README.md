@@ -109,9 +109,54 @@ Zet bij je host minstens `NEXT_PUBLIC_SITE_URL=https://tdt-ict.com`. Die waarde 
 
 **Eigen webserver**: upload de inhoud van `out/`. Zorg dat `/pad/` naar `/pad/index.html` verwijst (standaard bij Apache en Nginx).
 
+### Plesk
+
+De site is volledig statisch: op de server is geen Node.js nodig om hem te *draaien*. Alleen het *bouwen* vraagt Node.js 20.9 of hoger. `public/.htaccess` regelt op Apache (de standaard in Plesk) de 301-redirects, de 404-pagina, security-headers en caching.
+
+**Tip:** zet de nieuwe site in een eigen map (bijv. `site`) en wijzig in Plesk onder *Hosting-instellingen → Documentroot* de documentroot naar die map. De oude WordPress-site in `httpdocs` blijft dan staan; terugschakelen is één instelling.
+
+**Optie A: lokaal bouwen en uploaden (eenvoudigst)**
+
+1. Bouw op je eigen computer, met de juiste instellingen:
+   ```bash
+   NEXT_PUBLIC_SITE_URL=https://tdt-ict.com \
+   NEXT_PUBLIC_FORM_ENDPOINT=<formulier-endpoint> \
+   NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key> \
+   npm run build
+   ```
+   (Of zet deze waarden in `.env.production.local` en draai `npm run build`.)
+2. Upload de **inhoud** van `out/` naar de documentroot, via *Bestandsbeheer* (zip uploaden en uitpakken) of FTP. Let op het verborgen bestand `.htaccess`: dat moet mee.
+
+**Optie B: automatisch vanuit GitHub met de Plesk Git-extensie**
+
+Vereist: de extensies **Git** en **Node.js** in Plesk, en SSH-toegang (`/bin/bash`) voor het systeemaccount van het abonnement (in te stellen door de beheerder).
+
+1. *Websites & Domeinen → Git → Repository toevoegen*: kies *Externe repository*, URL `git@github.com:tompjep/tdt-ict.com.git`. Plesk toont een SSH-sleutel: voeg die in GitHub toe als *Deploy key* (alleen leesrechten).
+2. Branch: `production`. Deploymentmodus: *Automatisch* (dan krijg je een webhook-URL om in GitHub toe te voegen) of *Handmatig*.
+3. Deploymentpad: een map **buiten** de documentroot, bijv. `/bron`, zodat de broncode niet online staat.
+4. Zet *Aanvullende deploymentacties* aan met (pas het Node-pad en de waarden aan):
+   ```bash
+   export PATH=/opt/plesk/node/22/bin:$PATH
+   export NEXT_PUBLIC_SITE_URL=https://tdt-ict.com
+   export NEXT_PUBLIC_FORM_ENDPOINT=<formulier-endpoint>
+   export NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key>
+   export NEXT_TELEMETRY_DISABLED=1
+   npm ci
+   npm run build
+   rsync -a --delete --exclude=.well-known out/ ../site/
+   ```
+   Het buildproces gebruikt ongeveer 1 tot 2 GB geheugen; op een klein hostingpakket kan dat te veel zijn. Kies dan optie A.
+5. Elke push naar `production` bouwt en publiceert de site daarna automatisch.
+
+**Na installatie in Plesk**
+
+- Zet *Hosting-instellingen → Permanente SEO-veilige 301-redirect van HTTP naar HTTPS* aan, en kies of `www.` doorverwijst naar het domein zonder `www.` (of andersom).
+- Zorg voor een SSL-certificaat (bijv. via *SSL/TLS-certificaten → Let's Encrypt*).
+- Het contactformulier heeft een endpoint nodig (zie *Contactformulier koppelen*). De Netlify-voorbeeldfunctie werkt niet op Plesk: gebruik Formspree of een eigen script op de server.
+
 ### URL's en redirects
 
-De bestaande URL's blijven gelijk (met trailing slash): `/over-ons/`, `/contact/`, `/voorwaarden/`, `/acceptable-use-policy-aup/` en `/privacy-policy/`. 301-redirects voor oude of foutieve URL's (zoals de kapotte link `/contac`) staan in `public/_redirects` (Netlify) en `vercel.json` (Vercel). Voeg daar eventuele andere oude WordPress-URL's aan toe.
+De bestaande URL's blijven gelijk (met trailing slash): `/over-ons/`, `/contact/`, `/voorwaarden/`, `/acceptable-use-policy-aup/` en `/privacy-policy/`. 301-redirects voor oude of foutieve URL's (zoals de kapotte link `/contac`) staan in `public/_redirects` (Netlify), `vercel.json` (Vercel) en `public/.htaccess` (Apache/Plesk). Voeg daar eventuele andere oude WordPress-URL's aan toe.
 
 ## SEO en structured data
 
