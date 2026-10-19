@@ -7,6 +7,7 @@
  *       RESEND_API_KEY   – API-sleutel van Resend
  *       CONTACT_TO       – ontvanger, bijv. info@tdt-ict.com
  *       CONTACT_FROM     – geverifieerde afzender, bijv. "Website TDT-ICT <website@tdt-ict.com>"
+ *       TURNSTILE_SECRET_KEY – geheime sleutel van Cloudflare Turnstile (alleen hier, nooit in de site zelf)
  *       NEXT_PUBLIC_FORM_ENDPOINT=/.netlify/functions/contact
  *  3. Opnieuw deployen.
  *
@@ -29,6 +30,24 @@ async function handler(request) {
   const { name, company, email, phone, role, subject, message, privacy } = data;
   if (!name || !email || !phone || !message || privacy !== true) {
     return Response.json({ ok: false, error: "Verplichte velden ontbreken" }, { status: 422 });
+  }
+
+  // Cloudflare Turnstile: token controleren voordat er iets verstuurd wordt
+  if (process.env.TURNSTILE_SECRET_KEY) {
+    const token = data["cf-turnstile-response"];
+    if (!token) return Response.json({ ok: false, error: "Beveiligingscheck ontbreekt" }, { status: 403 });
+    const verify = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: request.headers.get("x-nf-client-connection-ip") ?? "",
+      }),
+    });
+    const outcome = await verify.json();
+    if (!outcome.success || (outcome.action && outcome.action !== "contact")) {
+      return Response.json({ ok: false, error: "Beveiligingscheck mislukt" }, { status: 403 });
+    }
   }
 
   const html = `

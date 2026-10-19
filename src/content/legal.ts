@@ -76,6 +76,7 @@ export const legalPages: LegalPage[] = [
         paragraphs: [
           "Deze website plaatst geen tracking-cookies. [PLACEHOLDER: als je privacyvriendelijke statistieken gebruikt (Plausible of Umami), vermeld dat hier. Die werken zonder cookies en zonder persoonsgegevens op te slaan.]",
           "De kaart op de contactpagina wordt pas geladen als je daar zelf op klikt. Vanaf dat moment kan Google gegevens verwerken volgens het privacybeleid van Google.",
+          "Om spam via het contactformulier te voorkomen, gebruiken we Cloudflare Turnstile. Turnstile controleert of het formulier door een mens wordt ingevuld en verwerkt daarvoor technische gegevens zoals je IP-adres en browsergegevens. Er worden geen tracking-cookies geplaatst. [PLACEHOLDER: controleren en afstemmen op het verwerkersbeleid van Cloudflare]",
         ],
       },
       { heading: "Bewaartermijnen", paragraphs: ["[PLACEHOLDER: bestaande tekst overnemen]"] },

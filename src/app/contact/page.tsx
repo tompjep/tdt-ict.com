@@ -32,6 +32,7 @@ export default function ContactPage() {
             <ContactForm
               form={contactPage.form}
               contact={{ phoneHref: contact.phoneHref, phoneDisplay: contact.phoneDisplay, email: contact.email, emailHref: contact.emailHref }}
+              turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined}
             />
           </div>
 

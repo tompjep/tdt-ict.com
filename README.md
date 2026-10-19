@@ -78,6 +78,18 @@ Zie `examples/netlify-function-contact.mjs`. Zet de functie in `netlify/function
 
 Het onderwerp is voor te selecteren via de URL, bijvoorbeeld `/contact/?onderwerp=netwerk#formulier`. Alle CTA's op de dienstpagina's doen dat al.
 
+## Spambeveiliging: Cloudflare Turnstile
+
+Het contactformulier kan Cloudflare Turnstile gebruiken, een privacyvriendelijk alternatief voor reCAPTCHA zonder tracking-cookies. Naast Turnstile zit er altijd een honeypot-veld in het formulier.
+
+1. Maak in het Cloudflare-dashboard onder **Turnstile** een widget aan voor `tdt-ict.com`. Je krijgt een **site key** (publiek) en een **secret key** (geheim).
+2. Zet bij de site: `NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key>` en build opnieuw. Het formulier toont dan de check en stuurt het token mee als `cf-turnstile-response`.
+3. **Controleer het token aan de serverkant.** Zonder deze stap houdt Turnstile niets tegen. In `examples/netlify-function-contact.mjs` gebeurt dat al: zet bij de functie `TURNSTILE_SECRET_KEY=<secret key>`. De functie weigert dan elk bericht zonder geldig token.
+   - Gebruik je Formspree in plaats van een eigen functie, controleer dan of je Formspree-abonnement Turnstile-tokens verifieert. Anders werkt de check alleen schijnbaar.
+4. Zet de secret key nooit in een `NEXT_PUBLIC_`-variabele: alles met dat voorvoegsel komt in de JavaScript van de site terecht.
+
+Testen kan met de testsleutels van Cloudflare: site key `1x00000000000000000000AA` en secret `1x0000000000000000000000000000000AA` (slaagt altijd).
+
 ## Analytics (optioneel, zonder cookies)
 
 Zet één van deze variabelen en build opnieuw:

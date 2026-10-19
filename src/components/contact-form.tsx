@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CircleAlert, CircleCheck, LoaderCircle, Phone, Send } from "lucide-react";
+import { CircleAlert, CircleCheck, LoaderCircle, Phone, Send, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, NativeSelect, Textarea } from "@/components/ui/input";
+import { Turnstile, type TurnstileHandle } from "@/components/turnstile";
 import type { contactPage } from "@/content/site";
 import { emptyContact, submitContact, validateContact, type ContactErrors, type ContactValues } from "@/lib/form";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
-const fieldOrder: (keyof ContactValues)[] = ["name", "email", "phone", "role", "subject", "message", "privacy"];
+const fieldOrder: (keyof ContactValues)[] = ["name", "email", "phone", "role", "subject", "message", "privacy", "captcha"];
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
@@ -25,9 +26,14 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 type ContactFormProps = {
   form: (typeof contactPage)["form"];
   contact: { phoneHref: string; phoneDisplay: string; email: string; emailHref: string };
+  /** Cloudflare Turnstile site key; zonder key wordt er geen captcha getoond */
+  turnstileSiteKey?: string;
 };
 
-export function ContactForm({ form, contact }: ContactFormProps) {
+export function ContactForm({ form, contact, turnstileSiteKey }: ContactFormProps) {
+  const captchaRequired = Boolean(turnstileSiteKey);
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [captchaLoadError, setCaptchaLoadError] = useState(false);
   const [values, setValues] = useState<ContactValues>(emptyContact);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof ContactValues, boolean>>>({});
@@ -52,12 +58,22 @@ export function ContactForm({ form, contact }: ContactFormProps) {
   const update = <K extends keyof ContactValues>(key: K, value: ContactValues[K]) => {
     const next = { ...values, [key]: value };
     setValues(next);
-    if (touched[key] || showSummary) setErrors(validateContact(next));
+    if (touched[key] || showSummary) setErrors(validateContact(next, { captchaRequired }));
   };
 
   const blur = (key: keyof ContactValues) => {
     setTouched((t) => ({ ...t, [key]: true }));
-    setErrors(validateContact(values));
+    setErrors(validateContact(values, { captchaRequired }));
+  };
+
+  const setCaptcha = (token: string) => {
+    setValues((v) => ({ ...v, captcha: token }));
+    if (token)
+      setErrors((e) => {
+        const next = { ...e };
+        delete next.captcha;
+        return next;
+      });
   };
 
   const visibleError = (key: keyof ContactValues) => (touched[key] || showSummary ? errors[key] : undefined);
@@ -72,7 +88,7 @@ export function ContactForm({ form, contact }: ContactFormProps) {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const found = validateContact(values);
+    const found = validateContact(values, { captchaRequired });
     setErrors(found);
     setShowSummary(true);
     if (Object.keys(found).length) {
@@ -86,6 +102,9 @@ export function ContactForm({ form, contact }: ContactFormProps) {
     } catch (err) {
       console.error(err);
       setStatus("error");
+      // Een Turnstile-token is maar één keer bruikbaar: vraag een nieuw token aan
+      setCaptcha("");
+      turnstileRef.current?.reset();
     }
   }
 
@@ -291,6 +310,29 @@ export function ContactForm({ form, contact }: ContactFormProps) {
         </label>
         <FieldError id="contact-privacy-error" message={visibleError("privacy")} />
       </div>
+
+      {turnstileSiteKey && (
+        <div id="contact-captcha" tabIndex={-1} className="outline-none">
+          <p className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-heading">
+            <ShieldCheck aria-hidden="true" className="size-4 text-accent-strong" /> Beveiligingscheck
+          </p>
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={turnstileSiteKey}
+            onToken={setCaptcha}
+            onExpire={() => setCaptcha("")}
+            onLoadError={() => setCaptchaLoadError(true)}
+            className="min-h-[65px]"
+          />
+          {captchaLoadError && (
+            <FieldError
+              id="contact-captcha-load-error"
+              message={`De beveiligingscheck kon niet laden. Ververs de pagina, of mail of bel ons direct (${contact.phoneDisplay}).`}
+            />
+          )}
+          <FieldError id="contact-captcha-error" message={showSummary ? errors.captcha : undefined} />
+        </div>
+      )}
 
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm">
