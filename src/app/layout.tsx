@@ -44,7 +44,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="nl" className={inter.variable}>
+    <html lang="nl" className={inter.variable} data-scroll-behavior="smooth">
       <body>
         <a
           href="#inhoud"
