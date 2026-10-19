@@ -1,0 +1,35 @@
+# Apache-configuratie voor Plesk en andere Apache-hosting.
+# (Netlify gebruikt _redirects, Vercel gebruikt vercel.json.)
+
+Options -Indexes
+DirectoryIndex index.html
+# /over-ons -> /over-ons/ (gelijk aan de oude WordPress-URL's)
+DirectorySlash On
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 301-redirects van oude of foutieve URL's
+  RewriteRule ^contac/?$ /contact/ [R=301,L]
+  RewriteRule ^home/?$ / [R=301,L]
+  RewriteRule ^index\.php$ / [R=301,L]
+  # [PLACEHOLDER: overige oude WordPress-URL's hier toevoegen, bijv.:]
+  # RewriteRule ^oude-pagina/?$ /nieuwe-pagina/ [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Bestanden in /_next/static/ hebben een hash in de naam en veranderen nooit
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # HTML altijd vers ophalen, zodat een nieuwe versie direct zichtbaar is
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

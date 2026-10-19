@@ -68,7 +68,16 @@ Payload:
   "subject": "adviesgesprek|online-werkplek|...", "message": "", "privacy": true, "_subject": "..." }
 ```
 
-**Optie 1: Formspree (snelst)**
+**Plesk / eigen server met PHP (aanbevolen bij Plesk)**
+`public/api/contact.php` ontvangt het formulier op jullie eigen server, controleert Turnstile en mailt het bericht via de mailserver van Plesk. Er is geen externe dienst nodig.
+1. Zet `NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php` en build. Het script komt automatisch mee in `out/api/`.
+2. Kopieer `examples/tdt-contact-config.example.php` naar de map **private** van het domein in Plesk (`/var/www/vhosts/tdt-ict.com/private/tdt-contact-config.php`). Die map staat buiten de webroot en is dus niet via het web bereikbaar.
+3. Vul daarin de ontvanger, de afzender (een adres op `@tdt-ict.com`) en de Turnstile **secret key** in.
+4. Test door het formulier in te vullen. Komt er geen mail aan, kijk dan in Plesk bij *Logs* naar meldingen van `contact.php`.
+
+Het script controleert alle velden opnieuw aan de serverkant, weigert verzoeken van andere websites, laat maximaal 5 berichten per IP-adres per 10 minuten door en verstuurt niets als de Turnstile-controle mislukt.
+
+**Optie 1: Formspree**
 1. Maak een formulier aan op formspree.io.
 2. Zet `NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/<jouw-id>` (lokaal in `.env.local`, of als environment variable bij je host).
 3. Opnieuw builden.
@@ -109,9 +118,54 @@ Zet bij je host minstens `NEXT_PUBLIC_SITE_URL=https://tdt-ict.com`. Die waarde 
 
 **Eigen webserver**: upload de inhoud van `out/`. Zorg dat `/pad/` naar `/pad/index.html` verwijst (standaard bij Apache en Nginx).
 
+### Plesk
+
+De site is volledig statisch: op de server is geen Node.js nodig om hem te *draaien*. Alleen het *bouwen* vraagt Node.js 20.9 of hoger. `public/.htaccess` regelt op Apache (de standaard in Plesk) de 301-redirects, de 404-pagina, security-headers en caching.
+
+**Tip:** zet de nieuwe site in een eigen map (bijv. `site`) en wijzig in Plesk onder *Hosting-instellingen → Documentroot* de documentroot naar die map. De oude WordPress-site in `httpdocs` blijft dan staan; terugschakelen is één instelling.
+
+**Optie A: lokaal bouwen en uploaden (eenvoudigst)**
+
+1. Bouw op je eigen computer, met de juiste instellingen:
+   ```bash
+   NEXT_PUBLIC_SITE_URL=https://tdt-ict.com \
+   NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php \
+   NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key> \
+   npm run build
+   ```
+   (Of zet deze waarden in `.env.production.local` en draai `npm run build`.)
+2. Upload de **inhoud** van `out/` naar de documentroot, via *Bestandsbeheer* (zip uploaden en uitpakken) of FTP. Let op het verborgen bestand `.htaccess`: dat moet mee.
+
+**Optie B: automatisch vanuit GitHub met de Plesk Git-extensie**
+
+Vereist: de extensies **Git** en **Node.js** in Plesk, en SSH-toegang (`/bin/bash`) voor het systeemaccount van het abonnement (in te stellen door de beheerder).
+
+1. *Websites & Domeinen → Git → Repository toevoegen*: kies *Externe repository*, URL `git@github.com:tompjep/tdt-ict.com.git`. Plesk toont een SSH-sleutel: voeg die in GitHub toe als *Deploy key* (alleen leesrechten).
+2. Branch: `production`. Deploymentmodus: *Automatisch* (dan krijg je een webhook-URL om in GitHub toe te voegen) of *Handmatig*.
+3. Deploymentpad: een map **buiten** de documentroot, bijv. `/bron`, zodat de broncode niet online staat.
+4. Zet *Aanvullende deploymentacties* aan met (pas het Node-pad en de waarden aan):
+   ```bash
+   export PATH=/opt/plesk/node/22/bin:$PATH
+   export NEXT_PUBLIC_SITE_URL=https://tdt-ict.com
+   export NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php
+   export NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key>
+   export NEXT_TELEMETRY_DISABLED=1
+   npm ci
+   npm run build
+   rsync -a --delete --exclude=.well-known out/ ../site/
+   ```
+   Het buildproces gebruikt ongeveer 1 tot 2 GB geheugen; op een klein hostingpakket kan dat te veel zijn. Kies dan optie A.
+5. Elke push naar `production` bouwt en publiceert de site daarna automatisch.
+
+**Na installatie in Plesk**
+
+- Zet *Hosting-instellingen → Permanente SEO-veilige 301-redirect van HTTP naar HTTPS* aan, en kies of `www.` doorverwijst naar het domein zonder `www.` (of andersom).
+- Zorg voor een SSL-certificaat (bijv. via *SSL/TLS-certificaten → Let's Encrypt*).
+- Contactformulier: gebruik `NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php` en zet het configbestand in de map `private` (zie *Contactformulier koppelen*). De Netlify-voorbeeldfunctie werkt niet op Plesk.
+
 ### URL's en redirects
 
-De bestaande URL's blijven gelijk (met trailing slash): `/over-ons/`, `/contact/`, `/voorwaarden/`, `/acceptable-use-policy-aup/` en `/privacy-policy/`. 301-redirects voor oude of foutieve URL's (zoals de kapotte link `/contac`) staan in `public/_redirects` (Netlify) en `vercel.json` (Vercel). Voeg daar eventuele andere oude WordPress-URL's aan toe.
+De bestaande URL's blijven gelijk (met trailing slash): `/over-ons/`, `/contact/`, `/voorwaarden/`, `/acceptable-use-policy-aup/` en `/privacy-policy/`. 301-redirects voor oude of foutieve URL's (zoals de kapotte link `/contac`) staan in `public/_redirects` (Netlify), `vercel.json` (Vercel) en `public/.htaccess` (Apache/Plesk). Voeg daar eventuele andere oude WordPress-URL's aan toe.
 
 ## SEO en structured data
 
