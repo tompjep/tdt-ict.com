@@ -68,7 +68,16 @@ Payload:
   "subject": "adviesgesprek|online-werkplek|...", "message": "", "privacy": true, "_subject": "..." }
 ```
 
-**Optie 1: Formspree (snelst)**
+**Plesk / eigen server met PHP (aanbevolen bij Plesk)**
+`public/api/contact.php` ontvangt het formulier op jullie eigen server, controleert Turnstile en mailt het bericht via de mailserver van Plesk. Er is geen externe dienst nodig.
+1. Zet `NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php` en build. Het script komt automatisch mee in `out/api/`.
+2. Kopieer `examples/tdt-contact-config.example.php` naar de map **private** van het domein in Plesk (`/var/www/vhosts/tdt-ict.com/private/tdt-contact-config.php`). Die map staat buiten de webroot en is dus niet via het web bereikbaar.
+3. Vul daarin de ontvanger, de afzender (een adres op `@tdt-ict.com`) en de Turnstile **secret key** in.
+4. Test door het formulier in te vullen. Komt er geen mail aan, kijk dan in Plesk bij *Logs* naar meldingen van `contact.php`.
+
+Het script controleert alle velden opnieuw aan de serverkant, weigert verzoeken van andere websites, laat maximaal 5 berichten per IP-adres per 10 minuten door en verstuurt niets als de Turnstile-controle mislukt.
+
+**Optie 1: Formspree**
 1. Maak een formulier aan op formspree.io.
 2. Zet `NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/<jouw-id>` (lokaal in `.env.local`, of als environment variable bij je host).
 3. Opnieuw builden.
@@ -120,7 +129,7 @@ De site is volledig statisch: op de server is geen Node.js nodig om hem te *draa
 1. Bouw op je eigen computer, met de juiste instellingen:
    ```bash
    NEXT_PUBLIC_SITE_URL=https://tdt-ict.com \
-   NEXT_PUBLIC_FORM_ENDPOINT=<formulier-endpoint> \
+   NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php \
    NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key> \
    npm run build
    ```
@@ -138,7 +147,7 @@ Vereist: de extensies **Git** en **Node.js** in Plesk, en SSH-toegang (`/bin/bas
    ```bash
    export PATH=/opt/plesk/node/22/bin:$PATH
    export NEXT_PUBLIC_SITE_URL=https://tdt-ict.com
-   export NEXT_PUBLIC_FORM_ENDPOINT=<formulier-endpoint>
+   export NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php
    export NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site key>
    export NEXT_TELEMETRY_DISABLED=1
    npm ci
@@ -152,7 +161,7 @@ Vereist: de extensies **Git** en **Node.js** in Plesk, en SSH-toegang (`/bin/bas
 
 - Zet *Hosting-instellingen → Permanente SEO-veilige 301-redirect van HTTP naar HTTPS* aan, en kies of `www.` doorverwijst naar het domein zonder `www.` (of andersom).
 - Zorg voor een SSL-certificaat (bijv. via *SSL/TLS-certificaten → Let's Encrypt*).
-- Het contactformulier heeft een endpoint nodig (zie *Contactformulier koppelen*). De Netlify-voorbeeldfunctie werkt niet op Plesk: gebruik Formspree of een eigen script op de server.
+- Contactformulier: gebruik `NEXT_PUBLIC_FORM_ENDPOINT=/api/contact.php` en zet het configbestand in de map `private` (zie *Contactformulier koppelen*). De Netlify-voorbeeldfunctie werkt niet op Plesk.
 
 ### URL's en redirects
 
