@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Mail, Menu, Phone } from "lucide-react";
+import { LogIn, Mail, Menu, Phone } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -103,6 +103,11 @@ export function MobileMenu({ nav, pathname }: { nav: NavData; pathname: string }
               </a>
             </Button>
           </div>
+          <Button asChild variant="navy" className="w-full">
+            <a href={nav.portal.url}>
+              <LogIn aria-hidden="true" /> {nav.portal.label}
+            </a>
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

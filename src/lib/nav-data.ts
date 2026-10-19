@@ -10,6 +10,7 @@ export function getNavData() {
     phoneHref: company.contact.phoneHref,
     phoneDisplay: company.contact.phoneDisplay,
     emailHref: company.contact.emailHref,
+    portal: { label: company.portal.label, url: company.portal.url },
     cta: { href: cta.primary.href, label: cta.primary.label, short: cta.primary.short },
     main: navigation.main.map((item) => ({ label: item.label, href: item.href, menu: "menu" in item ? item.menu : undefined })),
     services: services.map((s) => ({ slug: s.slug, icon: s.icon, shortTitle: s.shortTitle, menuDescription: s.menuDescription })),

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CircleCheck, Download, Mail, MonitorSmartphone, Phone, Siren, TriangleAlert } from "lucide-react";
+import { CircleCheck, Download, LogIn, Mail, MonitorSmartphone, Phone, Siren, TriangleAlert } from "lucide-react";
 import { FaqSection } from "@/components/sections/faq-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { Button } from "@/components/ui/button";
@@ -117,6 +117,29 @@ export default function SupportPage() {
               </p>
             )}
             <p className="mt-4 text-sm leading-relaxed">{support.remote.note}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20 sm:pb-24" aria-labelledby="portal-title">
+        <div className="container-site">
+          <div className="flex flex-col gap-5 rounded-card border border-line bg-surface p-7 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="flex items-start gap-4">
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-navy text-white">
+                <LogIn aria-hidden="true" className="size-5" />
+              </span>
+              <div>
+                <h2 id="portal-title" className="text-xl font-semibold">
+                  {company.portal.label}
+                </h2>
+                <p className="mt-1 leading-relaxed">{company.portal.text}</p>
+              </div>
+            </div>
+            <Button asChild variant="navy" size="lg" className="shrink-0">
+              <a href={company.portal.url}>
+                Naar het {company.portal.label.toLowerCase()} <LogIn aria-hidden="true" />
+              </a>
+            </Button>
           </div>
         </div>
       </section>

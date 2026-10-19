@@ -132,6 +132,12 @@ export const company = {
   sameAs: [] as string[],
   /** [PLACEHOLDER: link naar Google-reviews] */
   googleReviewsUrl: null as string | null,
+  /** Klantenportaal voor bestaande klanten */
+  portal: {
+    label: "Klantenportaal",
+    url: "https://orders.tdt-ict.com",
+    text: "Al klant? Log in op het klantenportaal.",
+  },
 } as const;
 
 /* ----------------------------------------------------------------------------
@@ -1109,6 +1115,7 @@ export const navigation = {
       { label: "Support", href: "/support/" },
       { label: "Contact", href: "/contact/" },
       { label: "Gratis adviesgesprek", href: cta.primary.href },
+      { label: company.portal.label, href: company.portal.url },
     ],
     legal: [
       { label: "Algemene voorwaarden", href: "/voorwaarden/" },
