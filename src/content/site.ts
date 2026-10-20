@@ -51,6 +51,8 @@ export type Service = {
   partners: PartnerId[];
   faqs: Faq[];
   packages?: { title: string; intro: string; items: Package[] };
+  /** Optionele afbeelding, getoond in de grote tegel op de homepage. width/height = grootste bestand */
+  image?: { src: string; srcSet?: string; width: number; height: number; alt: string };
 };
 
 export type Audience = {
@@ -274,6 +276,13 @@ export const services: Service[] = [
     icon: "cloud",
     summary: "Werk overal veilig met Microsoft 365: mail, Teams, OneDrive en SharePoint, inclusief back-up en beheer.",
     menuDescription: "Microsoft 365, mail, Teams en back-up",
+    image: {
+      src: "/images/microsoft-365-apps-1400.webp",
+      srcSet: "/images/microsoft-365-apps-800.webp 800w, /images/microsoft-365-apps-1400.webp 1400w",
+      width: 1400,
+      height: 370,
+      alt: "Microsoft 365 met de apps Outlook, Word, Excel, PowerPoint, OneNote, OneDrive, Teams, SharePoint en Clipchamp",
+    },
     seo: {
       title: "Online werkplek & Microsoft 365 voor het MKB",
       description:

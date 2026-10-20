@@ -66,7 +66,24 @@ export function ServiceBento() {
                   )}
                 />
               </div>
-              <div className={cn("relative mt-auto pt-8", isFeatured && "lg:pt-16")}>
+              {isFeatured && service.image && (
+                // Loopt door tot de rechterrand van de tegel en wordt daar afgesneden ("peek")
+                <div className="relative mt-6 -mr-6 overflow-hidden rounded-l-xl border-y border-l border-white/10 shadow-lift sm:mt-8 sm:-mr-7">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- statische export; afbeelding is al geoptimaliseerd (WebP) */}
+                  <img
+                    src={service.image.src}
+                    srcSet={service.image.srcSet}
+                    sizes="(min-width: 1024px) 900px, 160vw"
+                    width={service.image.width}
+                    height={service.image.height}
+                    alt={service.image.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="block h-auto w-[165%] max-w-none"
+                  />
+                </div>
+              )}
+              <div className={cn("relative mt-auto pt-8", isFeatured && !service.image && "lg:pt-16")}>
                 <h3 className={cn("font-semibold", isFeatured ? "text-2xl sm:text-[1.75rem]" : "text-lg", featuredIndex === 0 && "text-white")}>
                   {service.title}
                 </h3>
