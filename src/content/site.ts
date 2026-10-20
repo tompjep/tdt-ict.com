@@ -218,11 +218,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Tom Ruis",
-    role: "Mede-directeur & netwerkbeheerder",
+    role: "Cloud/Network Engineer",
     initials: "TR",
     bio: "Tom is mede-oprichter en houdt de netwerken van klanten stabiel en veilig. [PLACEHOLDER: korte persoonlijke bio]",
     photo: "/team/tom-ruis.webp",
-    photoAlt: "Portret van Tom Ruis, mede-directeur en netwerkbeheerder van TDT-ICT",
+    photoAlt: "Portret van Tom Ruis, cloud/network engineer bij TDT-ICT",
   },
   {
     name: "Daan Bruinsma",
