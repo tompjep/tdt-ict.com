@@ -84,7 +84,8 @@ export type Review = {
   author: string;
   /** Bijv. "Eigenaar, Bedrijfsnaam" – alleen met toestemming */
   context?: string;
-  rating: 1 | 2 | 3 | 4 | 5;
+  /** Aantal sterren, alleen invullen als de klant die zelf gaf (bijv. op Google) */
+  rating?: 1 | 2 | 3 | 4 | 5;
   text: string;
   date?: string;
 };
@@ -238,7 +239,13 @@ export const team: TeamMember[] = [
  * ------------------------------------------------------------------------- */
 
 export const reviews: Review[] = [
-  // [PLACEHOLDER: echte Google-reviews toevoegen]
+  {
+    author: "Kouros",
+    context: "Celtx Logistics",
+    // Letterlijk overgenomen. [PLACEHOLDER: aantal sterren toevoegen als de review van Google komt]
+    text: "Een jaar geleden een samenwerking aangegaan met TDT-ICT. Diverse abbonementen genomen waarbij het vrijwel snel was geregeld en er werd/wordt (tot op heden) duidelijk gecommuniceerd! Is er een probleem staan zij direct voor je klaar en denken meteen in oplossingen. Klasse werk dus!",
+  },
+  // [PLACEHOLDER: meer echte reviews toevoegen]
   // { author: "Voornaam A.", context: "Eigenaar, Bedrijf", rating: 5, text: "…", date: "2026-01" },
 ];
 
@@ -916,7 +923,7 @@ export const home = {
   reviews: {
     eyebrow: "Reviews",
     title: "Wat klanten over ons zeggen",
-    text: "Echte ervaringen van klanten, via Google.",
+    text: "Echte ervaringen van klanten.",
   },
   faq: {
     eyebrow: "Veelgestelde vragen",
