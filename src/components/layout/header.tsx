@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import type { NavData } from "@/lib/nav-data";
 import { cn } from "@/lib/utils";
+import { HomeLink } from "./home-link";
 import { MobileMenu } from "./mobile-menu";
 
 const isActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href.replace(/\/$/, "")));
@@ -45,10 +46,10 @@ export function Header({ nav }: { nav: NavData }) {
       )}
     >
       <div className="container-site flex h-18 items-center justify-between gap-4">
-        <Link href="/" className="-m-1 rounded-lg p-1">
+        <HomeLink className="-m-1 rounded-lg p-1">
           <Logo />
           <span className="sr-only">, naar de homepage</span>
-        </Link>
+        </HomeLink>
 
         <NavigationMenu className="hidden lg:flex" aria-label="Hoofdmenu">
           <NavigationMenuList>
