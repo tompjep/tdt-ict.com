@@ -46,7 +46,7 @@ export function Packages({ title, intro, items }: { title: string; intro: string
             </Reveal>
           ))}
         </ul>
-        <p className="mt-8 text-center text-sm">Alle prijzen zijn exclusief btw. [PLACEHOLDER: bevestigen]</p>
+        <p className="mt-8 text-center text-sm">Alle prijzen zijn exclusief btw.</p>
       </div>
     </section>
   );

@@ -114,8 +114,8 @@ export const company = {
     phoneHref: "tel:+31636320468",
     email: "info@tdt-ict.com",
     emailHref: "mailto:info@tdt-ict.com",
-    /** [PLACEHOLDER: WhatsApp-nummer bevestigen of op null zetten] */
-    whatsappHref: null as string | null,
+    /** WhatsApp op hetzelfde nummer. null = geen WhatsApp-knop */
+    whatsappHref: "https://wa.me/31636320468" as string | null,
     address: {
       street: "Broekelingstraat 28",
       postalCode: "5735 HC",
@@ -123,17 +123,17 @@ export const company = {
       region: "Noord-Brabant",
       country: "NL",
     },
-    /** [PLACEHOLDER: kantoortijden bevestigen] */
-    openingHours: "Maandag t/m vrijdag, [PLACEHOLDER: kantoortijden]",
-    /** Gebruikt in structured data (schema.org). [PLACEHOLDER: bevestigen] */
-    openingHoursSpec: [] as { days: string[]; opens: string; closes: string }[],
+    openingHours: "maandag t/m vrijdag van 9:00 tot 17:00",
+    /** Gebruikt in structured data (schema.org) */
+    openingHoursSpec: [
+      { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "17:00" },
+    ] as { days: string[]; opens: string; closes: string }[],
   },
-  /** [PLACEHOLDER: werkgebied bevestigen] */
   serviceArea: ["Laarbeek", "Aarle-Rixtel", "Helmond", "Eindhoven"],
   serviceAreaLabel: "Laarbeek, Helmond, Eindhoven en omgeving",
-  /** [PLACEHOLDER: links naar social media / Google Bedrijfsprofiel] */
+  /** Links naar social media / Google Bedrijfsprofiel (nu geen) */
   sameAs: [] as string[],
-  /** [PLACEHOLDER: link naar Google-reviews] */
+  /** Link naar Google-reviews. null = knop wordt niet getoond */
   googleReviewsUrl: null as string | null,
   /** Klantenportaal voor bestaande klanten */
   portal: {
@@ -148,7 +148,6 @@ export const company = {
  * ------------------------------------------------------------------------- */
 
 export const stats = {
-  /** [PLACEHOLDER: aantal websites bevestigen] */
   websites: { value: 60, suffix: "+", label: "websites gebouwd en actief" },
   uptime: { value: 99, suffix: "%+", label: "uptime" },
   responseHours: 24,
@@ -337,12 +336,12 @@ export const services: Service[] = [
       {
         question: "Kunnen jullie mijn bestaande mail en bestanden overzetten?",
         answer:
-          "We zetten je bestaande mailboxen en bestanden over naar Microsoft 365 en plannen de overstap zo dat je er zo min mogelijk last van hebt. [PLACEHOLDER: bevestigen vanaf welke systemen/providers jullie migreren]",
+          "We zetten je bestaande mailboxen en bestanden over naar Microsoft 365 en plannen de overstap zo dat je er zo min mogelijk last van hebt. Dat kan vanaf Google Workspace (Gmail en Google Drive) en vanaf mailboxen bij andere providers (IMAP).",
       },
       {
         question: "Wat kost een online werkplek?",
         answer:
-          "Je betaalt een vaste maandprijs per gebruiker, afhankelijk van de licenties en het beheer dat je nodig hebt. [PLACEHOLDER: indicatieprijs, bijv. vanaf € .. per gebruiker per maand]",
+          "Je betaalt een vaste maandprijs per gebruiker, afhankelijk van de licenties en het beheer dat je nodig hebt. Een online werkplek begint vanaf € 17,50 per gebruiker per maand (excl. btw).",
       },
     ],
   },
@@ -620,7 +619,7 @@ export const services: Service[] = [
       { icon: "pen", title: "Ontwerp & bouw", text: "Een website op maat, responsive en toegankelijk." },
       { icon: "zap", title: "Snelle WordPress-hosting", text: "Hosting gericht op snelheid en betrouwbaarheid." },
       { icon: "refresh", title: "Updates & beveiliging", text: "WordPress, thema en plug-ins blijven up-to-date." },
-      { icon: "database", title: "Back-ups", text: "Regelmatige back-ups, zodat je altijd terug kunt. [PLACEHOLDER: frequentie]" },
+      { icon: "database", title: "Back-ups", text: "Dagelijkse back-ups, zodat je altijd terug kunt." },
       { icon: "activity", title: "Monitoring", text: "We houden in de gaten of je website online en snel is." },
       { icon: "lockKeyhole", title: "Ledenportaal", text: "Een afgeschermd deel voor leden, ideaal voor verenigingen en stichtingen." },
       { icon: "globe", title: "Domeinnaam & SSL", text: "Je domeinnaam en een beveiligde verbinding (https) geregeld." },
@@ -665,7 +664,7 @@ export const services: Service[] = [
       {
         question: "Kan ik alleen hosting afnemen voor mijn bestaande website?",
         answer:
-          "Ja. Je kunt je bestaande WordPress-website bij ons laten hosten en onderhouden. [PLACEHOLDER: voorwaarden voor het overzetten van een bestaande website]",
+          "Ja. Je kunt je bestaande WordPress-website bij ons laten hosten en onderhouden. We zetten hem voor je over.",
       },
       {
         question: "Kan ik de teksten op mijn website zelf aanpassen?",
@@ -679,7 +678,7 @@ export const services: Service[] = [
       },
       {
         question: "Hoe lang duurt het om een website te maken?",
-        answer: "[PLACEHOLDER: indicatie doorlooptijd, bijv. ‘gemiddeld .. weken, afhankelijk van de omvang’]",
+        answer: "Gemiddeld 4 tot 5 weken, afhankelijk van de omvang van de website en hoe snel de teksten en afbeeldingen beschikbaar zijn.",
       },
     ],
   },
@@ -941,7 +940,7 @@ export const home = {
       {
         question: "Wat kost IT-beheer bij jullie?",
         answer:
-          "Je betaalt een vaste, transparante maandprijs. Die hangt af van het aantal gebruikers en de diensten die je afneemt. In een gratis adviesgesprek brengen we je situatie in kaart en krijg je een helder voorstel. [PLACEHOLDER: eventueel indicatieprijs, bijv. vanaf € .. per gebruiker per maand]",
+          "Je betaalt een vaste, transparante maandprijs. Die hangt af van het aantal gebruikers en de diensten die je afneemt. In een gratis adviesgesprek brengen we je situatie in kaart en krijg je een helder voorstel. Een online werkplek begint bijvoorbeeld vanaf € 17,50 per gebruiker per maand (excl. btw).",
       },
       {
         question: "Kunnen jullie onze bestaande IT overnemen?",
@@ -1044,9 +1043,11 @@ export const support = {
   remote: {
     title: "Hulp op afstand",
     text: "Vraagt een van onze medewerkers je om op afstand mee te kijken? Download dan via de knop hieronder de supporttool en geef de code door aan je contactpersoon.",
-    /** [PLACEHOLDER: link naar de remote-supporttool, bijv. TeamViewer QuickSupport of AnyDesk. null = knop wordt niet getoond] */
-    url: null as string | null,
-    label: "Download de supporttool",
+    /** TeamViewer QuickSupport (Windows). null = knop wordt niet getoond */
+    url: "https://download.teamviewer.com/download/TeamViewerQS.exe" as string | null,
+    label: "Download TeamViewer QuickSupport",
+    /** Versie voor Mac. null = link wordt niet getoond */
+    macUrl: "https://download.teamviewer.com/download/TeamViewerQS.dmg" as string | null,
     note: "Geef alleen toegang aan iemand van TDT-ICT die je zelf hebt gebeld of die jou net heeft gebeld.",
   },
   faqs: [
@@ -1060,7 +1061,7 @@ export const support = {
     },
     {
       question: "Wat zijn jullie kantoortijden?",
-      answer: "[PLACEHOLDER: kantoortijden]",
+      answer: `We zijn bereikbaar op ${company.contact.openingHours}. Voor urgente storingen kunnen vaste klanten 24/7 de calamiteitenlijn bellen.`,
     },
   ] satisfies Faq[],
 };
@@ -1078,7 +1079,7 @@ export const contactPage = {
   hero: {
     eyebrow: "Contact",
     title: "Laten we kennismaken",
-    intro: "Plan een gratis adviesgesprek of stel je vraag. We reageren zo snel mogelijk, meestal binnen één werkdag. [PLACEHOLDER: reactietijd bevestigen]",
+    intro: "Plan een gratis adviesgesprek of stel je vraag. We reageren zo snel mogelijk, meestal binnen één werkdag.",
   },
   form: {
     title: "Stuur ons een bericht",
