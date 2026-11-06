@@ -2,7 +2,9 @@
  * Juridische pagina's. De URL's zijn gelijk aan die van de oude site.
  *
  * Algemene voorwaarden (versie 2.0) en privacyverklaring zijn letterlijk
- * overgenomen van de oude WordPress-site (stand 3 augustus 2026). Het
+ * overgenomen van de oude WordPress-site (stand 3 augustus 2026). In de
+ * voorwaarden zijn vier lege opsommingstekens (art. 6.3, 8.3, 19.4 en 21.1)
+ * aangevuld met een afsluitend vangnet. Het
  * privacybeleid is aangevuld met het contactformulier, Turnstile en de kaart.
  * De AUP is nieuw geschreven (op de oude site stond onder die titel per
  * ongeluk een oude versie van de algemene voorwaarden) en sluit aan op de
@@ -35,7 +37,7 @@ export const legalPages: LegalPage[] = [
       title: "Algemene voorwaarden",
       description: "De algemene voorwaarden van TDT-ICT voor IT-diensten, hosting, internet en websites.",
     },
-    updated: "3 augustus 2026",
+    updated: "6 november 2026",
     version: "2.0",
     effective: "1 september 2021",
     intro: "Op alle diensten en overeenkomsten van TDT-ICT zijn deze algemene voorwaarden van toepassing.",
@@ -185,7 +187,8 @@ export const legalPages: LegalPage[] = [
               "storingen bij leveranciers;",
               "storingen bij datacenters;",
               "internetstoringen;",
-              "stroomuitval.",
+              "stroomuitval;",
+              "andere oorzaken die buiten de invloed van TDT-ICT liggen.",
             ],
           },
           "6.4 Geplande onderhoudswerkzaamheden worden indien redelijk mogelijk vooraf aangekondigd.",
@@ -244,7 +247,8 @@ export const legalPages: LegalPage[] = [
               "blacklists;",
               "storingen;",
               "internetproviders;",
-              "ontvangende mailservers.",
+              "ontvangende mailservers;",
+              "andere oorzaken die buiten de invloed van TDT-ICT liggen.",
             ],
           },
           "8.4 Opdrachtgever blijft verantwoordelijk voor:",
@@ -459,7 +463,8 @@ export const legalPages: LegalPage[] = [
               "ransomware;",
               "hacking;",
               "phishing;",
-              "beveiligingsincidenten bij derden.",
+              "beveiligingsincidenten bij derden;",
+              "andere omstandigheden die buiten de invloed van TDT-ICT liggen.",
             ],
           },
           "19.5 TDT-ICT is niet aansprakelijk voor verlies van gegevens indien Opdrachtgever geen actuele eigen back-up heeft gemaakt, tenzij schriftelijk is overeengekomen dat TDT-ICT verantwoordelijk is voor het maken en beheren van back-ups.",
@@ -506,7 +511,8 @@ export const legalPages: LegalPage[] = [
               "gewijzigde wet- en regelgeving;",
               "technische ontwikkelingen;",
               "wijzigingen bij leveranciers;",
-              "beveiligingsredenen.",
+              "beveiligingsredenen;",
+              "andere zwaarwegende omstandigheden.",
             ],
           },
           "21.2 Wijzigingen worden tijdig bekendgemaakt via de website, het klantportaal of per e-mail.",
