@@ -541,6 +541,7 @@ export const legalPages: LegalPage[] = [
       description: "De Acceptable Use Policy van TDT-ICT: regels voor het gebruik van onze hosting-, mail- en netwerkdiensten.",
     },
     updated: "6 november 2026",
+    version: "2.0",
     intro: "Deze Acceptable Use Policy beschrijft wat wel en niet is toegestaan bij het gebruik van de diensten van TDT-ICT.",
     sections: [
       {
