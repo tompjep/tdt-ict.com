@@ -225,7 +225,7 @@ export const team: TeamMember[] = [
     name: "Thijs Geene",
     role: "Directeur",
     initials: "TG",
-    bio: "Thijs richtte TDT-ICT in 2021 op. [PLACEHOLDER: korte persoonlijke bio, 1–2 zinnen]",
+    bio: "Thijs richtte TDT-ICT in 2021 op en is vaak je eerste aanspreekpunt. Hij denkt mee over de IT van je organisatie en zorgt dat afspraken helder zijn en worden nagekomen.",
     photo: "/team/thijs-geene.webp",
     photoAlt: "Portret van Thijs Geene, directeur van TDT-ICT",
   },
@@ -233,7 +233,7 @@ export const team: TeamMember[] = [
     name: "Tom Ruis",
     role: "Cloud- en netwerkbeheerder",
     initials: "TR",
-    bio: "Tom is mede-oprichter en houdt de netwerken van klanten stabiel en veilig. [PLACEHOLDER: korte persoonlijke bio]",
+    bio: "Tom is mede-oprichter en verantwoordelijk voor de cloud- en netwerkomgevingen van klanten. Van wifi en firewalls tot servers in de cloud: hij zorgt dat alles stabiel, veilig en bereikbaar is.",
     photo: "/team/tom-ruis.webp",
     photoAlt: "Portret van Tom Ruis, cloud- en netwerkbeheerder bij TDT-ICT",
   },
@@ -241,7 +241,7 @@ export const team: TeamMember[] = [
     name: "Daan Bruinsma",
     role: "Systeembeheerder",
     initials: "DB",
-    bio: "Daan zorgt dat werkplekken, accounts en systemen gewoon werken. [PLACEHOLDER: korte persoonlijke bio]",
+    bio: "Daan zorgt dat werkplekken, accounts en systemen gewoon werken. Heb je een vraag over je laptop, je mail of Microsoft 365, dan helpt hij je snel en in begrijpelijke taal verder.",
     photo: "/team/daan-bruinsma.webp",
     photoAlt: "Portret van Daan Bruinsma, systeembeheerder bij TDT-ICT",
   },
@@ -412,7 +412,7 @@ export const services: Service[] = [
       {
         question: "Kunnen jullie ons bestaande netwerk overnemen?",
         answer:
-          "We beginnen met een opname van wat er nu staat. Daarna adviseren we wat je kunt houden en wat beter vervangen kan worden. [PLACEHOLDER: antwoord bevestigen]",
+          "We beginnen met een opname van wat er nu staat. Daarna adviseren we wat je kunt houden en wat beter vervangen kan worden. Apparatuur die goed werkt, nemen we gewoon in beheer.",
       },
       {
         question: "Waarom zou ik mijn netwerk opdelen in segmenten?",
@@ -531,12 +531,12 @@ export const services: Service[] = [
       {
         question: "Kan ik mijn huidige telefoonnummer houden?",
         answer:
-          "In de meeste gevallen kun je je huidige nummers meenemen. We regelen de overstap voor je. [PLACEHOLDER: bevestigen]",
+          "Ja, in de meeste gevallen kun je je huidige nummers meenemen. Wij regelen de overstap en stemmen het moment met je af, zodat je gewoon bereikbaar blijft.",
       },
       {
         question: "Wat heb ik nodig om via internet te bellen?",
         answer:
-          "Een stabiele internetverbinding en een toestel, app of headset. We adviseren wat bij je situatie past. [PLACEHOLDER: welke toestellen/platform jullie gebruiken]",
+          "Een stabiele internetverbinding en iets om mee te bellen: een vast toestel op je bureau, een app op je mobiel of computer, of een headset. We adviseren wat bij je situatie past en stellen alles voor je in.",
       },
     ],
   },
@@ -596,7 +596,8 @@ export const services: Service[] = [
       },
       {
         question: "Moet ik overstappen van provider?",
-        answer: "[PLACEHOLDER: antwoord over overstappen/bestaande contracten]",
+        answer:
+          "Niet per se. We kijken eerst naar je huidige verbinding en contract. Past die goed, dan hoeft er niets te veranderen. Is overstappen zinvol, dan stemmen we het moment af op de einddatum van je huidige contract en regelen wij de aanvraag en de installatie.",
       },
     ],
   },
@@ -845,7 +846,8 @@ export const audiences: Audience[] = [
       },
       {
         question: "Hebben jullie een speciaal tarief voor verenigingen?",
-        answer: "[PLACEHOLDER: antwoord over tarieven voor stichtingen en verenigingen]",
+        answer:
+          "We houden rekening met het budget van stichtingen en verenigingen. Websitehosting begint al vanaf € 5 per maand. Voor een nieuwe website of een ledenportaal maken we een voorstel op maat, afgestemd op wat jullie echt nodig hebben.",
       },
     ],
     cta: {
@@ -894,11 +896,12 @@ export const audiences: Audience[] = [
     faqs: [
       {
         question: "Komen jullie ook bij mij thuis?",
-        answer: "[PLACEHOLDER: antwoord over hulp aan huis en het werkgebied]",
+        answer: `Ja. In ${company.serviceAreaLabel} komen we bij je langs. Veel vragen kunnen we ook op afstand oplossen, dan kijken we via TeamViewer QuickSupport met je mee.`,
       },
       {
         question: "Wat kost hulp voor particulieren?",
-        answer: "[PLACEHOLDER: tarief of werkwijze voor particulieren]",
+        answer:
+          "Dat hangt af van je vraag. Vooraf spreken we af wat we gaan doen en wat het ongeveer kost, zodat je niet voor verrassingen komt te staan.",
       },
     ],
     cta: {
@@ -1000,7 +1003,7 @@ export const home = {
       {
         question: "Kunnen jullie onze bestaande IT overnemen?",
         answer:
-          "We beginnen met een inventarisatie van je huidige systemen, accounts en apparatuur. Daarna maken we een plan om het beheer zorgvuldig over te nemen. [PLACEHOLDER: antwoord bevestigen]",
+          "We beginnen met een inventarisatie van je huidige systemen, accounts en apparatuur. Daarna maken we een plan om het beheer zorgvuldig over te nemen. De overdracht met je vorige IT-partner regelen wij, zodat jij daar geen omkijken naar hebt.",
       },
       {
         question: "Wat gebeurt er als er buiten kantoortijd iets uitvalt?",
@@ -1009,7 +1012,7 @@ export const home = {
       {
         question: "Helpen jullie ook particulieren?",
         answer:
-          "Ja. We helpen particulieren met advies en hulp bij laptops, printers en wifi-netwerken thuis. [PLACEHOLDER: tarief of werkwijze voor particulieren]",
+          "Ja. We helpen particulieren met advies en hulp bij laptops, printers en wifi-netwerken thuis. Vooraf hoor je wat we gaan doen en wat het ongeveer kost.",
       },
       {
         question: "Kan ik alleen een website of hosting afnemen?",
@@ -1040,7 +1043,7 @@ export const about = {
     paragraphs: [
       `TDT-ICT is in ${company.foundedYear} opgericht door Thijs Geene, samen met Tom Ruis. Vanuit Aarle-Rixtel helpen we bedrijven, stichtingen, verenigingen en particulieren met hun IT.`,
       `Sindsdien zijn we gegroeid naar meer dan ${stats.websites.value} websites en IT-diensten zoals online werkplekken, netwerken, cybersecurity, telefonie en internetverbindingen.`,
-      "Wat niet is veranderd: je hebt bij ons altijd een vast aanspreekpunt. Korte lijnen, heldere afspraken en een vaste maandprijs. [PLACEHOLDER: eventueel persoonlijke aanvulling op het verhaal]",
+      "Wat niet is veranderd: je hebt bij ons altijd een vast aanspreekpunt. Korte lijnen, heldere afspraken en een vaste maandprijs. En we zijn pas tevreden als jij dat ook bent.",
     ],
   },
   values: {
@@ -1112,7 +1115,7 @@ export const support = {
     },
     {
       question: "Hoe snel lossen jullie een storing op?",
-      answer: `Urgente problemen streven we binnen ${stats.responseHours} uur op te lossen. Niet-urgente vragen pakken we zo snel mogelijk op tijdens kantoortijd. [PLACEHOLDER: eventuele afspraken uit je SLA]`,
+      answer: `Urgente problemen streven we binnen ${stats.responseHours} uur op te lossen. Niet-urgente vragen pakken we zo snel mogelijk op tijdens kantoortijd. Wil je vaste afspraken over reactie- en oplostijden, dan leggen we die vast in een Service Level Agreement (SLA).`,
     },
     {
       question: "Wat zijn jullie kantoortijden?",
