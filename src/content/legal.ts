@@ -4,6 +4,9 @@
  * Algemene voorwaarden (versie 2.0) en privacyverklaring zijn letterlijk
  * overgenomen van de oude WordPress-site (stand 3 augustus 2026). Het
  * privacybeleid is aangevuld met het contactformulier, Turnstile en de kaart.
+ * De AUP is nieuw geschreven (op de oude site stond onder die titel per
+ * ongeluk een oude versie van de algemene voorwaarden) en sluit aan op de
+ * algemene voorwaarden v2.0.
  *
  * Een sectie bestaat uit blokken: een string is een alinea, `{ list: [...] }`
  * een opsomming en `{ h3: "..." }` een tussenkopje. Alinea's die beginnen met
@@ -537,15 +540,138 @@ export const legalPages: LegalPage[] = [
       title: "Acceptable Use Policy (AUP)",
       description: "De Acceptable Use Policy van TDT-ICT: regels voor het gebruik van onze hosting-, mail- en netwerkdiensten.",
     },
-    updated: "[PLACEHOLDER: datum laatste wijziging]",
+    updated: "6 november 2026",
     intro: "Deze Acceptable Use Policy beschrijft wat wel en niet is toegestaan bij het gebruik van de diensten van TDT-ICT.",
-    // [PLACEHOLDER: AUP-tekst. Op de oude site stond hier per ongeluk een oude versie van de algemene voorwaarden;
-    // de echte tekst staat waarschijnlijk in de PDF wp-content/uploads/2026/08/TDT-ICT-Acceptable-Use-Policy-AUP.pdf]
     sections: [
-      { heading: "Doel van deze policy", blocks: ["[PLACEHOLDER: bestaande tekst overnemen]"] },
-      { heading: "Niet toegestaan gebruik", blocks: ["[PLACEHOLDER: bestaande tekst overnemen]"] },
-      { heading: "Maatregelen bij overtreding", blocks: ["[PLACEHOLDER: bestaande tekst overnemen]"] },
-      { heading: "Melden van misbruik", blocks: ["[PLACEHOLDER: bestaande tekst overnemen]"] },
+      {
+        heading: "Artikel 1 – Doel en toepasselijkheid",
+        blocks: [
+          "1.1 Deze Acceptable Use Policy (AUP) beschrijft welk gebruik van de Diensten van TDT-ICT is toegestaan en welk gebruik niet. Zo houden wij onze infrastructuur veilig en betrouwbaar voor alle klanten.",
+          "1.2 Deze AUP is van toepassing op alle hosting-, cloud-, internet- en e-maildiensten van TDT-ICT en maakt integraal onderdeel uit van iedere Overeenkomst, zoals bepaald in artikel 10 van de Algemene Voorwaarden.",
+          "1.3 Begrippen die met een hoofdletter zijn geschreven, hebben de betekenis die daaraan in de Algemene Voorwaarden van TDT-ICT wordt gegeven.",
+          "1.4 Opdrachtgever draagt er zorg voor dat alle Gebruikers die onder zijn verantwoordelijkheid gebruikmaken van de Diensten deze AUP naleven. Opdrachtgever is verantwoordelijk voor iedere overtreding door deze Gebruikers.",
+        ],
+      },
+      {
+        heading: "Artikel 2 – Onrechtmatige inhoud en activiteiten",
+        blocks: [
+          "2.1 Het is niet toegestaan de Diensten te gebruiken voor het opslaan, publiceren, verspreiden of toegankelijk maken van inhoud of activiteiten die in strijd zijn met de wet, de openbare orde of de goede zeden, waaronder in ieder geval:",
+          {
+            list: [
+              "seksueel misbruikmateriaal van minderjarigen;",
+              "inhoud die inbreuk maakt op intellectuele eigendomsrechten van derden, zoals illegaal verspreide software, films of muziek;",
+              "discriminerende, bedreigende, lasterlijke of opruiende inhoud;",
+              "fraude, oplichting, phishing of het nabootsen van andere personen of organisaties;",
+              "het zonder grondslag verwerken of openbaar maken van persoonsgegevens van derden;",
+              "het aanbieden of verspreiden van malware, ransomware of andere schadelijke software.",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Artikel 3 – E-mail en spam",
+        blocks: [
+          "3.1 Het is niet toegestaan via de Diensten ongevraagde berichten te verzenden, waaronder in ieder geval:",
+          {
+            list: [
+              "ongevraagde commerciële, ideële of charitatieve e-mail in strijd met de Telecommunicatiewet;",
+              "berichten aan adressen waarvoor geen aantoonbare toestemming van de ontvanger is verkregen;",
+              "berichten met een vervalste afzender, vervalste headers of een misleidende onderwerpregel;",
+              "massaal verzonden berichten die de reputatie van de mailservers of IP-adressen van TDT-ICT kunnen schaden.",
+            ],
+          },
+          "3.2 Opdrachtgever mag geen mailservers, formulieren of scripts gebruiken die door derden kunnen worden misbruikt om berichten te verzenden, zoals een open relay.",
+          "3.3 Nieuwsbrieven en mailings zijn toegestaan, mits ontvangers zich daarvoor aantoonbaar hebben aangemeld en zich eenvoudig kunnen afmelden.",
+        ],
+      },
+      {
+        heading: "Artikel 4 – Beveiliging en netwerk",
+        blocks: [
+          "4.1 Het is niet toegestaan de Diensten te gebruiken om de beveiliging of werking van systemen en netwerken van TDT-ICT of derden aan te tasten, waaronder in ieder geval:",
+          {
+            list: [
+              "het zonder toestemming binnendringen van computersystemen, accounts of netwerken;",
+              "het uitvoeren van poortscans, kwetsbaarheidsscans of penetratietests zonder voorafgaande schriftelijke toestemming van de eigenaar van het systeem;",
+              "het uitvoeren of ondersteunen van (D)DoS-aanvallen;",
+              "het beheren of onderdeel zijn van een botnet;",
+              "het vervalsen van IP-adressen, MAC-adressen of andere netwerkidentificatie;",
+              "het omzeilen van beveiligingsmaatregelen, gebruikslimieten of authenticatie.",
+            ],
+          },
+          "4.2 Beveiligingsonderzoek op systemen van TDT-ICT is uitsluitend toegestaan met voorafgaande schriftelijke toestemming, zoals bepaald in artikel 11.5 van de Algemene Voorwaarden.",
+        ],
+      },
+      {
+        heading: "Artikel 5 – Redelijk gebruik",
+        blocks: [
+          "5.1 Opdrachtgever gebruikt de Diensten op een manier die geen onevenredige belasting veroorzaakt voor de infrastructuur van TDT-ICT of voor andere klanten.",
+          "5.2 Zonder voorafgaande schriftelijke toestemming van TDT-ICT is het niet toegestaan:",
+          {
+            list: [
+              "cryptovaluta te minen;",
+              "de Diensten in te zetten als openbare proxy, VPN-dienst of Tor-exitnode;",
+              "de Diensten door te verkopen of ter beschikking te stellen aan derden.",
+            ],
+          },
+          "5.3 Bij gebruik dat de stabiliteit of prestaties van de infrastructuur in gevaar brengt, neemt TDT-ICT contact op met Opdrachtgever. Indien nodig kan TDT-ICT het gebruik direct beperken.",
+        ],
+      },
+      {
+        heading: "Artikel 6 – Verantwoordelijkheden van Opdrachtgever",
+        blocks: [
+          "6.1 Opdrachtgever is verantwoordelijk voor een veilig gebruik van de Diensten, zoals beschreven in artikel 11.3 van de Algemene Voorwaarden. Dit betekent onder meer:",
+          {
+            list: [
+              "sterke, unieke wachtwoorden gebruiken en multi-factor authenticatie inschakelen waar mogelijk;",
+              "software, websites, CMS-systemen en plug-ins die Opdrachtgever zelf beheert tijdig bijwerken;",
+              "inloggegevens niet delen met onbevoegden;",
+              "een vermoeden van misbruik of een gecompromitteerd account direct melden aan TDT-ICT.",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Artikel 7 – Maatregelen bij overtreding",
+        blocks: [
+          "7.1 Bij een overtreding of een gegrond vermoeden van een overtreding van deze AUP is TDT-ICT gerechtigd, zonder voorafgaande ingebrekestelling, de maatregelen te nemen die in artikel 10.4 van de Algemene Voorwaarden zijn genoemd, waaronder:",
+          {
+            list: [
+              "het geven van een waarschuwing;",
+              "het tijdelijk blokkeren van accounts;",
+              "het beperken van netwerkverkeer;",
+              "het verwijderen of ontoegankelijk maken van schadelijke inhoud;",
+              "het opschorten van de dienstverlening;",
+              "het beëindigen van de overeenkomst.",
+            ],
+          },
+          "7.2 Waar redelijkerwijs mogelijk informeert TDT-ICT Opdrachtgever voordat maatregelen worden genomen. Bij direct gevaar voor de infrastructuur, andere klanten of derden kan TDT-ICT direct ingrijpen.",
+          "7.3 Kosten en schade die voortvloeien uit een overtreding van deze AUP komen voor rekening van Opdrachtgever. Opdrachtgever vrijwaart TDT-ICT tegen aanspraken van derden die voortvloeien uit een overtreding.",
+          "7.4 Indien TDT-ICT daartoe wettelijk verplicht is, kan zij gegevens verstrekken aan of aangifte doen bij de bevoegde autoriteiten, zoals bepaald in artikel 10.5 van de Algemene Voorwaarden.",
+        ],
+      },
+      {
+        heading: "Artikel 8 – Melden van misbruik",
+        blocks: [
+          "8.1 Ziet u misbruik vanaf systemen of diensten van TDT-ICT, zoals spam, phishing, malware of inbreuk op uw rechten? Meld dit dan via info@tdt-ict.com en vermeld daarbij zo mogelijk:",
+          {
+            list: [
+              "het betreffende IP-adres, de domeinnaam of de URL;",
+              "de datum en het tijdstip (met tijdzone);",
+              "een omschrijving van het misbruik;",
+              "bewijs, zoals volledige e-mailheaders of logregels.",
+            ],
+          },
+          "8.2 TDT-ICT behandelt meldingen vertrouwelijk, beoordeelt iedere melding zorgvuldig en neemt waar nodig maatregelen zoals beschreven in artikel 7.",
+          "8.3 Ontdekt u een kwetsbaarheid in systemen van TDT-ICT? Meld deze dan via info@tdt-ict.com en maak de kwetsbaarheid niet openbaar voordat TDT-ICT deze heeft kunnen verhelpen.",
+        ],
+      },
+      {
+        heading: "Artikel 9 – Wijzigingen",
+        blocks: [
+          "9.1 TDT-ICT kan deze AUP wijzigen. Op wijzigingen is artikel 21 van de Algemene Voorwaarden van toepassing.",
+          "9.2 Bij tegenstrijdigheid tussen deze AUP en de Algemene Voorwaarden gaan de Algemene Voorwaarden voor, zoals bepaald in artikel 2.6 van de Algemene Voorwaarden.",
+        ],
+      },
     ],
   },
   {

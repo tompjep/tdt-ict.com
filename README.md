@@ -48,7 +48,7 @@ Alles wat nog ingevuld of bevestigd moet worden, is gemarkeerd met `[PLACEHOLDER
 - **Logo als SVG**: het logo staat er nu in als WebP/PNG. Met een SVG-versie wordt het scherper en kleiner (`src/components/logo.tsx`)
 - **Teambio's**: korte persoonlijke tekst per teamlid (`bio` bij `team`). Nieuwe teamfoto's: vierkant, WebP, 800×800 px in `public/team/`
 - **Reviews**: echte Google-reviews in `reviews`, en `googleReviewsUrl`
-- **Acceptable Use Policy**: de tekst ontbreekt nog in `src/content/legal.ts`. De algemene voorwaarden (v2.0) en de privacyverklaring zijn overgenomen uit de WordPress-database
+- **Juridische teksten**: algemene voorwaarden (v2.0) en privacyverklaring komen uit de WordPress-database; de AUP is nieuw geschreven en moet nog worden goedgekeurd
 - **Cijfers**: aantal websites (nu 60+) en werkgebied bevestigen
 - **FAQ-antwoorden en prijzen**: waar het antwoord niet in de briefing stond
 - **Kantoortijden, WhatsApp, remote-supporttool**
