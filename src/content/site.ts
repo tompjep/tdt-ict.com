@@ -98,7 +98,8 @@ export type Review = {
 
 export const company = {
   name: "TDT-ICT",
-  legalName: "TDT-ICT",
+  /** Juridische naam: TDT-ICT is een handelsnaam van deze eenmanszaak */
+  legalName: "ThijsGeeneWerken",
   tagline: "Jouw cloud IT-partner",
   promise: "Slim, veilig & altijd online",
   mission: "Samen zoeken wij naar jouw digitale oplossing",
