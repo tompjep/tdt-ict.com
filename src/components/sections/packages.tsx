@@ -1,17 +1,25 @@
 import Link from "next/link";
+import type { ComponentProps } from "react";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
-import { cta, type Package } from "@/content/site";
+import { cta, type Package, type PackageExtra } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./section-heading";
 
-export function Packages({ title, intro, items }: { title: string; intro: string; items: Package[] }) {
+/** Externe links (zoals het klantenportaal) als gewone <a>, interne via next/link */
+function SmartLink({ href, ...props }: ComponentProps<"a"> & { href: string }) {
+  return href.startsWith("http") ? <a href={href} rel="noopener" {...props} /> : <Link href={href} {...props} />;
+}
+
+type PackagesProps = { title: string; intro: string; items: Package[]; extras?: PackageExtra[] };
+
+export function Packages({ title, intro, items, extras }: PackagesProps) {
   return (
     <section className="section bg-surface" aria-labelledby="packages-title">
       <div className="container-site">
         <SectionHeading id="packages-title" eyebrow="Pakketten" title={title} text={intro} align="center" />
-        <ul className="mt-12 grid gap-5 lg:grid-cols-3">
+        <ul className={cn("mt-12 grid gap-5", items.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "lg:grid-cols-3")}>
           {items.map((pkg, i) => (
             <Reveal as="li" key={pkg.name} delay={i * 0.08}>
               <div
@@ -40,12 +48,35 @@ export function Packages({ title, intro, items }: { title: string; intro: string
                   ))}
                 </ul>
                 <Button asChild variant={pkg.highlighted ? "primary" : "outline"} className="mt-8 w-full">
-                  <Link href={cta.primary.href}>Vraag een voorstel aan</Link>
+                  <SmartLink href={pkg.href ?? cta.primary.href}>{pkg.ctaLabel ?? "Vraag een voorstel aan"}</SmartLink>
                 </Button>
               </div>
             </Reveal>
           ))}
         </ul>
+
+        {extras && extras.length > 0 && (
+          <ul className="mt-5 grid gap-5 lg:grid-cols-3">
+            {extras.map((extra, i) => (
+              <Reveal as="li" key={extra.title} delay={i * 0.08}>
+                <div className="flex h-full flex-col rounded-card border border-line bg-white p-6 shadow-soft">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h3 className="text-lg font-semibold">{extra.title}</h3>
+                    <p className="shrink-0 text-right">
+                      <span className="font-bold text-heading">{extra.price}</span>
+                      {extra.priceNote && <span className="text-sm"> {extra.priceNote}</span>}
+                    </p>
+                  </div>
+                  <p className="mt-2 flex-1 text-[0.9375rem] leading-relaxed">{extra.text}</p>
+                  <Button asChild variant="link" className="mt-4 h-auto self-start px-0">
+                    <SmartLink href={extra.href}>{extra.ctaLabel} →</SmartLink>
+                  </Button>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        )}
+
         <p className="mt-8 text-center text-sm">Alle prijzen zijn exclusief btw.</p>
       </div>
     </section>

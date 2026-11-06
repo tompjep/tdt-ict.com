@@ -30,6 +30,19 @@ export type Package = {
   priceNote: string;
   features: string[];
   highlighted?: boolean;
+  /** Bestellink (bijv. in het klantenportaal). Zonder link: knop naar het contactformulier */
+  href?: string;
+  ctaLabel?: string;
+};
+
+/** Aanvulling onder de pakketten, zoals onderhoud of maatwerk */
+export type PackageExtra = {
+  title: string;
+  text: string;
+  price: string;
+  priceNote?: string;
+  href: string;
+  ctaLabel: string;
 };
 
 export type Service = {
@@ -50,7 +63,7 @@ export type Service = {
   steps: Step[];
   partners: PartnerId[];
   faqs: Faq[];
-  packages?: { title: string; intro: string; items: Package[] };
+  packages?: { title: string; intro: string; items: Package[]; extras?: PackageExtra[] };
   /** Optionele afbeelding, getoond in de grote tegel op de homepage. width/height = grootste bestand */
   image?: { src: string; srcSet?: string; width: number; height: number; alt: string };
 };
@@ -634,30 +647,71 @@ export const services: Service[] = [
     ],
     partners: [],
     packages: {
-      title: "Een vaste maandprijs, zonder verrassingen",
-      intro: "Kies het pakket dat bij je past. Je betaalt een vast bedrag per maand en weet precies waar je aan toe bent.",
+      title: "WordPress-hosting met een vaste maandprijs",
+      intro:
+        "Alle pakketten draaien op onze snelle WordPress-hosting, met een SSL-certificaat (https) en dagelijkse back-ups. Je bestelt direct in ons klantenportaal en betaalt per maand.",
       items: [
         {
-          name: "Hosting",
-          description: "Voor een bestaande WordPress-website.",
-          price: "vanaf € [PLACEHOLDER]",
+          name: "Starter",
+          description: "Voor een eenvoudige website, zonder e-mail.",
+          price: "€ 5",
           priceNote: "per maand",
-          features: ["Snelle WordPress-hosting", "SSL-certificaat (https)", "Back-ups", "Uptime-monitoring"],
+          features: ["1 WordPress-website", "5 GB webruimte", "128 MB geheugen", "1 database"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/starter-wordpress-hosting",
+          ctaLabel: "Bestel Starter",
         },
         {
-          name: "Hosting & onderhoud",
-          description: "Hosting plus onderhoud, zodat je er geen omkijken naar hebt.",
-          price: "vanaf € [PLACEHOLDER]",
+          name: "Small",
+          description: "Voor de meeste websites, inclusief e-mail.",
+          price: "€ 7,50",
           priceNote: "per maand",
-          features: ["Alles uit Hosting", "Updates van WordPress en plug-ins", "Beveiligingscontrole", "Kleine wijzigingen [PLACEHOLDER: aantal]"],
+          features: ["1 WordPress-website", "5 GB webruimte", "128 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
           highlighted: true,
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/small-wordpress-hosting",
+          ctaLabel: "Bestel Small",
         },
         {
-          name: "Website compleet",
-          description: "Ontwerp, bouw, hosting en onderhoud in één.",
-          price: "vanaf € [PLACEHOLDER]",
-          priceNote: "per maand [PLACEHOLDER: of eenmalig + per maand]",
-          features: ["Ontwerp en bouw op maat", "Alles uit Hosting & onderhoud", "Optioneel ledenportaal", "Vast aanspreekpunt"],
+          name: "Medium",
+          description: "Meer ruimte en geheugen voor een grotere website.",
+          price: "€ 10",
+          priceNote: "per maand",
+          features: ["1 WordPress-website", "7 GB webruimte", "256 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/medium-wordpress-hosting",
+          ctaLabel: "Bestel Medium",
+        },
+        {
+          name: "Premium",
+          description: "Voor grote of drukbezochte websites en ledenportalen.",
+          price: "€ 12,50",
+          priceNote: "per maand",
+          features: ["1 WordPress-website", "10 GB webruimte", "512 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/premium-wordpress-hosting",
+          ctaLabel: "Bestel Premium",
+        },
+      ],
+      extras: [
+        {
+          title: "WordPress-onderhoud",
+          text: "Wij voeren de updates van WordPress, je thema en plug-ins voor je uit, zodat je website veilig en up-to-date blijft. Te combineren met elk pakket.",
+          price: "€ 10",
+          priceNote: "per maand",
+          href: "https://orders.tdt-ict.com/index.php/store/diensten/wordpress-onderhoud",
+          ctaLabel: "Bestel onderhoud",
+        },
+        {
+          title: "Website laten maken",
+          text: "Een website op maat, ontworpen en gebouwd door ons. Gemiddeld klaar in 4 tot 5 weken. Je krijgt vooraf een helder voorstel.",
+          price: "Op maat",
+          href: "/contact/?onderwerp=websites-hosting#formulier",
+          ctaLabel: "Vraag een voorstel aan",
+        },
+        {
+          title: "Geen WordPress?",
+          text: "Gewone webhosting voor andere websites. Vanaf het pakket Small krijg je er het eerste jaar een gratis .nl-domeinnaam bij.",
+          price: "vanaf € 5",
+          priceNote: "per maand",
+          href: "https://orders.tdt-ict.com/index.php/store/hosting",
+          ctaLabel: "Bekijk webhosting",
         },
       ],
     },
@@ -960,7 +1014,7 @@ export const home = {
       {
         question: "Kan ik alleen een website of hosting afnemen?",
         answer:
-          "Ja. Je kunt bij ons ook alleen een website laten maken, of je website laten hosten en onderhouden op onze snelle WordPress-hosting. [PLACEHOLDER: controleren]",
+          "Ja. Je kunt bij ons ook alleen een website laten maken, of je website laten hosten en onderhouden op onze snelle WordPress-hosting, vanaf € 5 per maand.",
       },
     ] satisfies Faq[],
   },
