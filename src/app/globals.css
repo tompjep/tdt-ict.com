@@ -127,6 +127,9 @@
   .prose-legal h2 {
     @apply mt-10 mb-3 text-xl font-semibold;
   }
+  .prose-legal h3 {
+    @apply mt-6 mb-2 text-base font-semibold;
+  }
   .prose-legal p,
   .prose-legal li {
     @apply leading-relaxed;

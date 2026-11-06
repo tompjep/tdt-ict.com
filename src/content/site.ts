@@ -30,6 +30,19 @@ export type Package = {
   priceNote: string;
   features: string[];
   highlighted?: boolean;
+  /** Bestellink (bijv. in het klantenportaal). Zonder link: knop naar het contactformulier */
+  href?: string;
+  ctaLabel?: string;
+};
+
+/** Aanvulling onder de pakketten, zoals onderhoud of maatwerk */
+export type PackageExtra = {
+  title: string;
+  text: string;
+  price: string;
+  priceNote?: string;
+  href: string;
+  ctaLabel: string;
 };
 
 export type Service = {
@@ -50,7 +63,7 @@ export type Service = {
   steps: Step[];
   partners: PartnerId[];
   faqs: Faq[];
-  packages?: { title: string; intro: string; items: Package[] };
+  packages?: { title: string; intro: string; items: Package[]; extras?: PackageExtra[] };
   /** Optionele afbeelding, getoond in de grote tegel op de homepage. width/height = grootste bestand */
   image?: { src: string; srcSet?: string; width: number; height: number; alt: string };
 };
@@ -98,7 +111,8 @@ export type Review = {
 
 export const company = {
   name: "TDT-ICT",
-  legalName: "TDT-ICT",
+  /** Juridische naam: TDT-ICT is een handelsnaam van deze eenmanszaak */
+  legalName: "ThijsGeeneWerken",
   tagline: "Jouw cloud IT-partner",
   promise: "Slim, veilig & altijd online",
   mission: "Samen zoeken wij naar jouw digitale oplossing",
@@ -114,8 +128,8 @@ export const company = {
     phoneHref: "tel:+31636320468",
     email: "info@tdt-ict.com",
     emailHref: "mailto:info@tdt-ict.com",
-    /** [PLACEHOLDER: WhatsApp-nummer bevestigen of op null zetten] */
-    whatsappHref: null as string | null,
+    /** WhatsApp op hetzelfde nummer. null = geen WhatsApp-knop */
+    whatsappHref: "https://wa.me/31636320468" as string | null,
     address: {
       street: "Broekelingstraat 28",
       postalCode: "5735 HC",
@@ -123,17 +137,17 @@ export const company = {
       region: "Noord-Brabant",
       country: "NL",
     },
-    /** [PLACEHOLDER: kantoortijden bevestigen] */
-    openingHours: "Maandag t/m vrijdag, [PLACEHOLDER: kantoortijden]",
-    /** Gebruikt in structured data (schema.org). [PLACEHOLDER: bevestigen] */
-    openingHoursSpec: [] as { days: string[]; opens: string; closes: string }[],
+    openingHours: "maandag t/m vrijdag van 9:00 tot 17:00",
+    /** Gebruikt in structured data (schema.org) */
+    openingHoursSpec: [
+      { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "17:00" },
+    ] as { days: string[]; opens: string; closes: string }[],
   },
-  /** [PLACEHOLDER: werkgebied bevestigen] */
   serviceArea: ["Laarbeek", "Aarle-Rixtel", "Helmond", "Eindhoven"],
   serviceAreaLabel: "Laarbeek, Helmond, Eindhoven en omgeving",
-  /** [PLACEHOLDER: links naar social media / Google Bedrijfsprofiel] */
+  /** Links naar social media / Google Bedrijfsprofiel (nu geen) */
   sameAs: [] as string[],
-  /** [PLACEHOLDER: link naar Google-reviews] */
+  /** Link naar Google-reviews. null = knop wordt niet getoond */
   googleReviewsUrl: null as string | null,
   /** Klantenportaal voor bestaande klanten */
   portal: {
@@ -148,7 +162,6 @@ export const company = {
  * ------------------------------------------------------------------------- */
 
 export const stats = {
-  /** [PLACEHOLDER: aantal websites bevestigen] */
   websites: { value: 60, suffix: "+", label: "websites gebouwd en actief" },
   uptime: { value: 99, suffix: "%+", label: "uptime" },
   responseHours: 24,
@@ -212,7 +225,7 @@ export const team: TeamMember[] = [
     name: "Thijs Geene",
     role: "Directeur",
     initials: "TG",
-    bio: "Thijs richtte TDT-ICT in 2021 op. [PLACEHOLDER: korte persoonlijke bio, 1–2 zinnen]",
+    bio: "Thijs richtte TDT-ICT in 2021 op en is vaak je eerste aanspreekpunt. Hij denkt mee over de IT van je organisatie en zorgt dat afspraken helder zijn en worden nagekomen.",
     photo: "/team/thijs-geene.webp",
     photoAlt: "Portret van Thijs Geene, directeur van TDT-ICT",
   },
@@ -220,7 +233,7 @@ export const team: TeamMember[] = [
     name: "Tom Ruis",
     role: "Cloud- en netwerkbeheerder",
     initials: "TR",
-    bio: "Tom is mede-oprichter en houdt de netwerken van klanten stabiel en veilig. [PLACEHOLDER: korte persoonlijke bio]",
+    bio: "Tom is mede-oprichter en verantwoordelijk voor de cloud- en netwerkomgevingen van klanten. Van wifi en firewalls tot servers in de cloud: hij zorgt dat alles stabiel, veilig en bereikbaar is.",
     photo: "/team/tom-ruis.webp",
     photoAlt: "Portret van Tom Ruis, cloud- en netwerkbeheerder bij TDT-ICT",
   },
@@ -228,7 +241,7 @@ export const team: TeamMember[] = [
     name: "Daan Bruinsma",
     role: "Systeembeheerder",
     initials: "DB",
-    bio: "Daan zorgt dat werkplekken, accounts en systemen gewoon werken. [PLACEHOLDER: korte persoonlijke bio]",
+    bio: "Daan zorgt dat werkplekken, accounts en systemen gewoon werken. Heb je een vraag over je laptop, je mail of Microsoft 365, dan helpt hij je snel en in begrijpelijke taal verder.",
     photo: "/team/daan-bruinsma.webp",
     photoAlt: "Portret van Daan Bruinsma, systeembeheerder bij TDT-ICT",
   },
@@ -337,12 +350,12 @@ export const services: Service[] = [
       {
         question: "Kunnen jullie mijn bestaande mail en bestanden overzetten?",
         answer:
-          "We zetten je bestaande mailboxen en bestanden over naar Microsoft 365 en plannen de overstap zo dat je er zo min mogelijk last van hebt. [PLACEHOLDER: bevestigen vanaf welke systemen/providers jullie migreren]",
+          "We zetten je bestaande mailboxen en bestanden over naar Microsoft 365 en plannen de overstap zo dat je er zo min mogelijk last van hebt. Dat kan vanaf Google Workspace (Gmail en Google Drive) en vanaf mailboxen bij andere providers (IMAP).",
       },
       {
         question: "Wat kost een online werkplek?",
         answer:
-          "Je betaalt een vaste maandprijs per gebruiker, afhankelijk van de licenties en het beheer dat je nodig hebt. [PLACEHOLDER: indicatieprijs, bijv. vanaf € .. per gebruiker per maand]",
+          "Je betaalt een vaste maandprijs per gebruiker, afhankelijk van de licenties en het beheer dat je nodig hebt. Een online werkplek begint vanaf € 17,50 per gebruiker per maand (excl. btw).",
       },
     ],
   },
@@ -399,7 +412,7 @@ export const services: Service[] = [
       {
         question: "Kunnen jullie ons bestaande netwerk overnemen?",
         answer:
-          "We beginnen met een opname van wat er nu staat. Daarna adviseren we wat je kunt houden en wat beter vervangen kan worden. [PLACEHOLDER: antwoord bevestigen]",
+          "We beginnen met een opname van wat er nu staat. Daarna adviseren we wat je kunt houden en wat beter vervangen kan worden. Apparatuur die goed werkt, nemen we gewoon in beheer.",
       },
       {
         question: "Waarom zou ik mijn netwerk opdelen in segmenten?",
@@ -518,12 +531,12 @@ export const services: Service[] = [
       {
         question: "Kan ik mijn huidige telefoonnummer houden?",
         answer:
-          "In de meeste gevallen kun je je huidige nummers meenemen. We regelen de overstap voor je. [PLACEHOLDER: bevestigen]",
+          "Ja, in de meeste gevallen kun je je huidige nummers meenemen. Wij regelen de overstap en stemmen het moment met je af, zodat je gewoon bereikbaar blijft.",
       },
       {
         question: "Wat heb ik nodig om via internet te bellen?",
         answer:
-          "Een stabiele internetverbinding en een toestel, app of headset. We adviseren wat bij je situatie past. [PLACEHOLDER: welke toestellen/platform jullie gebruiken]",
+          "Een stabiele internetverbinding en iets om mee te bellen: een vast toestel op je bureau, een app op je mobiel of computer, of een headset. We adviseren wat bij je situatie past en stellen alles voor je in.",
       },
     ],
   },
@@ -583,7 +596,8 @@ export const services: Service[] = [
       },
       {
         question: "Moet ik overstappen van provider?",
-        answer: "[PLACEHOLDER: antwoord over overstappen/bestaande contracten]",
+        answer:
+          "Niet per se. We kijken eerst naar je huidige verbinding en contract. Past die goed, dan hoeft er niets te veranderen. Is overstappen zinvol, dan stemmen we het moment af op de einddatum van je huidige contract en regelen wij de aanvraag en de installatie.",
       },
     ],
   },
@@ -620,7 +634,7 @@ export const services: Service[] = [
       { icon: "pen", title: "Ontwerp & bouw", text: "Een website op maat, responsive en toegankelijk." },
       { icon: "zap", title: "Snelle WordPress-hosting", text: "Hosting gericht op snelheid en betrouwbaarheid." },
       { icon: "refresh", title: "Updates & beveiliging", text: "WordPress, thema en plug-ins blijven up-to-date." },
-      { icon: "database", title: "Back-ups", text: "Regelmatige back-ups, zodat je altijd terug kunt. [PLACEHOLDER: frequentie]" },
+      { icon: "database", title: "Back-ups", text: "Dagelijkse back-ups, zodat je altijd terug kunt." },
       { icon: "activity", title: "Monitoring", text: "We houden in de gaten of je website online en snel is." },
       { icon: "lockKeyhole", title: "Ledenportaal", text: "Een afgeschermd deel voor leden, ideaal voor verenigingen en stichtingen." },
       { icon: "globe", title: "Domeinnaam & SSL", text: "Je domeinnaam en een beveiligde verbinding (https) geregeld." },
@@ -634,30 +648,71 @@ export const services: Service[] = [
     ],
     partners: [],
     packages: {
-      title: "Een vaste maandprijs, zonder verrassingen",
-      intro: "Kies het pakket dat bij je past. Je betaalt een vast bedrag per maand en weet precies waar je aan toe bent.",
+      title: "WordPress-hosting met een vaste maandprijs",
+      intro:
+        "Alle pakketten draaien op onze snelle WordPress-hosting, met een SSL-certificaat (https) en dagelijkse back-ups. Je bestelt direct in ons klantenportaal en betaalt per maand.",
       items: [
         {
-          name: "Hosting",
-          description: "Voor een bestaande WordPress-website.",
-          price: "vanaf € [PLACEHOLDER]",
+          name: "Starter",
+          description: "Voor een eenvoudige website, zonder e-mail.",
+          price: "€ 5",
           priceNote: "per maand",
-          features: ["Snelle WordPress-hosting", "SSL-certificaat (https)", "Back-ups", "Uptime-monitoring"],
+          features: ["1 WordPress-website", "5 GB webruimte", "128 MB geheugen", "1 database"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/starter-wordpress-hosting",
+          ctaLabel: "Bestel Starter",
         },
         {
-          name: "Hosting & onderhoud",
-          description: "Hosting plus onderhoud, zodat je er geen omkijken naar hebt.",
-          price: "vanaf € [PLACEHOLDER]",
+          name: "Small",
+          description: "Voor de meeste websites, inclusief e-mail.",
+          price: "€ 7,50",
           priceNote: "per maand",
-          features: ["Alles uit Hosting", "Updates van WordPress en plug-ins", "Beveiligingscontrole", "Kleine wijzigingen [PLACEHOLDER: aantal]"],
+          features: ["1 WordPress-website", "5 GB webruimte", "128 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
           highlighted: true,
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/small-wordpress-hosting",
+          ctaLabel: "Bestel Small",
         },
         {
-          name: "Website compleet",
-          description: "Ontwerp, bouw, hosting en onderhoud in één.",
-          price: "vanaf € [PLACEHOLDER]",
-          priceNote: "per maand [PLACEHOLDER: of eenmalig + per maand]",
-          features: ["Ontwerp en bouw op maat", "Alles uit Hosting & onderhoud", "Optioneel ledenportaal", "Vast aanspreekpunt"],
+          name: "Medium",
+          description: "Meer ruimte en geheugen voor een grotere website.",
+          price: "€ 10",
+          priceNote: "per maand",
+          features: ["1 WordPress-website", "7 GB webruimte", "256 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/medium-wordpress-hosting",
+          ctaLabel: "Bestel Medium",
+        },
+        {
+          name: "Premium",
+          description: "Voor grote of drukbezochte websites en ledenportalen.",
+          price: "€ 12,50",
+          priceNote: "per maand",
+          features: ["1 WordPress-website", "10 GB webruimte", "512 MB geheugen", "1 database", "E-mail op je eigen domeinnaam"],
+          href: "https://orders.tdt-ict.com/index.php/store/hosting/premium-wordpress-hosting",
+          ctaLabel: "Bestel Premium",
+        },
+      ],
+      extras: [
+        {
+          title: "WordPress-onderhoud",
+          text: "Wij voeren de updates van WordPress, je thema en plug-ins voor je uit, zodat je website veilig en up-to-date blijft. Te combineren met elk pakket.",
+          price: "€ 10",
+          priceNote: "per maand",
+          href: "https://orders.tdt-ict.com/index.php/store/diensten/wordpress-onderhoud",
+          ctaLabel: "Bestel onderhoud",
+        },
+        {
+          title: "Website laten maken",
+          text: "Een website op maat, ontworpen en gebouwd door ons. Gemiddeld klaar in 4 tot 5 weken. Je krijgt vooraf een helder voorstel.",
+          price: "Op maat",
+          href: "/contact/?onderwerp=websites-hosting#formulier",
+          ctaLabel: "Vraag een voorstel aan",
+        },
+        {
+          title: "Geen WordPress?",
+          text: "Gewone webhosting voor andere websites. Vanaf het pakket Small krijg je er het eerste jaar een gratis .nl-domeinnaam bij.",
+          price: "vanaf € 5",
+          priceNote: "per maand",
+          href: "https://orders.tdt-ict.com/index.php/store/hosting",
+          ctaLabel: "Bekijk webhosting",
         },
       ],
     },
@@ -665,7 +720,7 @@ export const services: Service[] = [
       {
         question: "Kan ik alleen hosting afnemen voor mijn bestaande website?",
         answer:
-          "Ja. Je kunt je bestaande WordPress-website bij ons laten hosten en onderhouden. [PLACEHOLDER: voorwaarden voor het overzetten van een bestaande website]",
+          "Ja. Je kunt je bestaande WordPress-website bij ons laten hosten en onderhouden. We zetten hem voor je over.",
       },
       {
         question: "Kan ik de teksten op mijn website zelf aanpassen?",
@@ -679,7 +734,7 @@ export const services: Service[] = [
       },
       {
         question: "Hoe lang duurt het om een website te maken?",
-        answer: "[PLACEHOLDER: indicatie doorlooptijd, bijv. ‘gemiddeld .. weken, afhankelijk van de omvang’]",
+        answer: "Gemiddeld 4 tot 5 weken, afhankelijk van de omvang van de website en hoe snel de teksten en afbeeldingen beschikbaar zijn.",
       },
     ],
   },
@@ -791,7 +846,8 @@ export const audiences: Audience[] = [
       },
       {
         question: "Hebben jullie een speciaal tarief voor verenigingen?",
-        answer: "[PLACEHOLDER: antwoord over tarieven voor stichtingen en verenigingen]",
+        answer:
+          "We houden rekening met het budget van stichtingen en verenigingen. Websitehosting begint al vanaf € 5 per maand. Voor een nieuwe website of een ledenportaal maken we een voorstel op maat, afgestemd op wat jullie echt nodig hebben.",
       },
     ],
     cta: {
@@ -840,11 +896,12 @@ export const audiences: Audience[] = [
     faqs: [
       {
         question: "Komen jullie ook bij mij thuis?",
-        answer: "[PLACEHOLDER: antwoord over hulp aan huis en het werkgebied]",
+        answer: `Ja. In ${company.serviceAreaLabel} komen we bij je langs. Veel vragen kunnen we ook op afstand oplossen, dan kijken we via TeamViewer QuickSupport met je mee.`,
       },
       {
         question: "Wat kost hulp voor particulieren?",
-        answer: "[PLACEHOLDER: tarief of werkwijze voor particulieren]",
+        answer:
+          "Dat hangt af van je vraag. Vooraf spreken we af wat we gaan doen en wat het ongeveer kost, zodat je niet voor verrassingen komt te staan.",
       },
     ],
     cta: {
@@ -941,12 +998,12 @@ export const home = {
       {
         question: "Wat kost IT-beheer bij jullie?",
         answer:
-          "Je betaalt een vaste, transparante maandprijs. Die hangt af van het aantal gebruikers en de diensten die je afneemt. In een gratis adviesgesprek brengen we je situatie in kaart en krijg je een helder voorstel. [PLACEHOLDER: eventueel indicatieprijs, bijv. vanaf € .. per gebruiker per maand]",
+          "Je betaalt een vaste, transparante maandprijs. Die hangt af van het aantal gebruikers en de diensten die je afneemt. In een gratis adviesgesprek brengen we je situatie in kaart en krijg je een helder voorstel. Een online werkplek begint bijvoorbeeld vanaf € 17,50 per gebruiker per maand (excl. btw).",
       },
       {
         question: "Kunnen jullie onze bestaande IT overnemen?",
         answer:
-          "We beginnen met een inventarisatie van je huidige systemen, accounts en apparatuur. Daarna maken we een plan om het beheer zorgvuldig over te nemen. [PLACEHOLDER: antwoord bevestigen]",
+          "We beginnen met een inventarisatie van je huidige systemen, accounts en apparatuur. Daarna maken we een plan om het beheer zorgvuldig over te nemen. De overdracht met je vorige IT-partner regelen wij, zodat jij daar geen omkijken naar hebt.",
       },
       {
         question: "Wat gebeurt er als er buiten kantoortijd iets uitvalt?",
@@ -955,12 +1012,12 @@ export const home = {
       {
         question: "Helpen jullie ook particulieren?",
         answer:
-          "Ja. We helpen particulieren met advies en hulp bij laptops, printers en wifi-netwerken thuis. [PLACEHOLDER: tarief of werkwijze voor particulieren]",
+          "Ja. We helpen particulieren met advies en hulp bij laptops, printers en wifi-netwerken thuis. Vooraf hoor je wat we gaan doen en wat het ongeveer kost.",
       },
       {
         question: "Kan ik alleen een website of hosting afnemen?",
         answer:
-          "Ja. Je kunt bij ons ook alleen een website laten maken, of je website laten hosten en onderhouden op onze snelle WordPress-hosting. [PLACEHOLDER: controleren]",
+          "Ja. Je kunt bij ons ook alleen een website laten maken, of je website laten hosten en onderhouden op onze snelle WordPress-hosting, vanaf € 5 per maand.",
       },
     ] satisfies Faq[],
   },
@@ -986,7 +1043,7 @@ export const about = {
     paragraphs: [
       `TDT-ICT is in ${company.foundedYear} opgericht door Thijs Geene, samen met Tom Ruis. Vanuit Aarle-Rixtel helpen we bedrijven, stichtingen, verenigingen en particulieren met hun IT.`,
       `Sindsdien zijn we gegroeid naar meer dan ${stats.websites.value} websites en IT-diensten zoals online werkplekken, netwerken, cybersecurity, telefonie en internetverbindingen.`,
-      "Wat niet is veranderd: je hebt bij ons altijd een vast aanspreekpunt. Korte lijnen, heldere afspraken en een vaste maandprijs. [PLACEHOLDER: eventueel persoonlijke aanvulling op het verhaal]",
+      "Wat niet is veranderd: je hebt bij ons altijd een vast aanspreekpunt. Korte lijnen, heldere afspraken en een vaste maandprijs. En we zijn pas tevreden als jij dat ook bent.",
     ],
   },
   values: {
@@ -1044,9 +1101,11 @@ export const support = {
   remote: {
     title: "Hulp op afstand",
     text: "Vraagt een van onze medewerkers je om op afstand mee te kijken? Download dan via de knop hieronder de supporttool en geef de code door aan je contactpersoon.",
-    /** [PLACEHOLDER: link naar de remote-supporttool, bijv. TeamViewer QuickSupport of AnyDesk. null = knop wordt niet getoond] */
-    url: null as string | null,
-    label: "Download de supporttool",
+    /** TeamViewer QuickSupport (Windows). null = knop wordt niet getoond */
+    url: "https://download.teamviewer.com/download/TeamViewerQS.exe" as string | null,
+    label: "Download TeamViewer QuickSupport",
+    /** Versie voor Mac. null = link wordt niet getoond */
+    macUrl: "https://download.teamviewer.com/download/TeamViewerQS.dmg" as string | null,
     note: "Geef alleen toegang aan iemand van TDT-ICT die je zelf hebt gebeld of die jou net heeft gebeld.",
   },
   faqs: [
@@ -1056,11 +1115,11 @@ export const support = {
     },
     {
       question: "Hoe snel lossen jullie een storing op?",
-      answer: `Urgente problemen streven we binnen ${stats.responseHours} uur op te lossen. Niet-urgente vragen pakken we zo snel mogelijk op tijdens kantoortijd. [PLACEHOLDER: eventuele afspraken uit je SLA]`,
+      answer: `Urgente problemen streven we binnen ${stats.responseHours} uur op te lossen. Niet-urgente vragen pakken we zo snel mogelijk op tijdens kantoortijd. Wil je vaste afspraken over reactie- en oplostijden, dan leggen we die vast in een Service Level Agreement (SLA).`,
     },
     {
       question: "Wat zijn jullie kantoortijden?",
-      answer: "[PLACEHOLDER: kantoortijden]",
+      answer: `We zijn bereikbaar op ${company.contact.openingHours}. Voor urgente storingen kunnen vaste klanten 24/7 de calamiteitenlijn bellen.`,
     },
   ] satisfies Faq[],
 };
@@ -1078,7 +1137,7 @@ export const contactPage = {
   hero: {
     eyebrow: "Contact",
     title: "Laten we kennismaken",
-    intro: "Plan een gratis adviesgesprek of stel je vraag. We reageren zo snel mogelijk, meestal binnen één werkdag. [PLACEHOLDER: reactietijd bevestigen]",
+    intro: "Plan een gratis adviesgesprek of stel je vraag. We reageren zo snel mogelijk, meestal binnen één werkdag.",
   },
   form: {
     title: "Stuur ons een bericht",

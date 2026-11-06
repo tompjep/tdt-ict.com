@@ -116,6 +116,14 @@ export default function SupportPage() {
                 [PLACEHOLDER: link naar remote-supporttool in src/content/site.ts]
               </p>
             )}
+            {support.remote.url && support.remote.macUrl && (
+              <p className="mt-3 text-sm">
+                Werk je op een Mac?{" "}
+                <a href={support.remote.macUrl} rel="noopener" className="font-medium text-accent-strong underline underline-offset-2">
+                  Download de Mac-versie
+                </a>
+              </p>
+            )}
             <p className="mt-4 text-sm leading-relaxed">{support.remote.note}</p>
           </div>
         </div>
